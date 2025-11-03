@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>منيو مطاعم ومطابخ سحايب ديرتي</title>
+<link rel="stylesheet" href="menu.css">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<header>
+    <h1>مطاعم ومطابخ سحايب ديرتي</h1>
+</header>
+
+<main>
+<!-- ===== قسم الدجاج ===== -->
+<section class="menu-section">
+<h2>قسم الدجاج</h2>
+
+<div class="menu-item">
+    <img src="placeholder.png" alt="دجاج مظبي">
+    <span>دجاج مظبي</span>
+    <span class="price">24 ريال</span>
+    <select onchange="updateChickenOption(this)">
+        <option value="half">نص</option>
+        <option value="full">حبه كاملة</option>
+    </select>
+    <select class="rice-select" style="display:none;" onchange="updateRicePrice(this,24)">
+        <option value="0">رز شعبي</option>
+        <option value="1">رز بشاور +1 ريال</option>
+        <option value="1">رز مندي +1 ريال</option>
+    </select>
+    <button onclick="addToCartChicken('دجاج مظبي',24,this)">+</button>
+</div>
+
+<div class="menu-item">
+    <img src="placeholder.png" alt="دجاج مدفون">
+    <span>دجاج مدفون</span>
+    <span class="price">24 ريال</span>
+    <select onchange="updateChickenOption(this)">
+        <option value="half">نص</option>
+        <option value="full">حبه كاملة</option>
+    </select>
+    <select class="rice-select" style="display:none;" onchange="updateRicePrice(this,24)">
+        <option value="0">رز شعبي</option>
+        <option value="1">رز بشاور +1 ريال</option>
+        <option value="1">رز مندي +1 ريال</option>
+    </select>
+    <button onclick="addToCartChicken('دجاج مدفون',24,this)">+</button>
+</div>
+
+<!-- باقي أصناف الدجاج نفس النمط -->
+
+</section>
+
+<!-- ===== قسم الحم ===== -->
+<section class="menu-section">
+<h2>قسم الحم</h2>
+<div class="menu-item"><img src="placeholder.png" alt=""><span>نص تيس مندي رز شعبي</span><span>750</span><button onclick="addToCart('نص تيس مندي رز شعبي',750)">+</button></div>
+<div class="menu-item"><img src="placeholder.png" alt=""><span>ربع تيس مندي رز شعبي</span><span>375</span><button onclick="addToCart('ربع تيس مندي رز شعبي',375)">+</button></div>
+<div class="menu-item"><img src="placeholder.png" alt=""><span>نفر حاشي مكموت رز شعبي</span><span>50</span><button onclick="addToCart('نفر حاشي مكموت رز شعبي',50)">+</button></div>
+</section>
+
+<!-- ===== قسم المقبلات ===== -->
+<section class="menu-section">
+<h2>قسم المقبلات</h2>
+<div class="menu-item"><img src="placeholder.png" alt=""><span>سلطه خضرا وسط</span><span>13</span><button onclick="addToCart('سلطه خضرا وسط',13)">+</button></div>
+<div class="menu-item"><img src="placeholder.png" alt=""><span>خيار لبن صغير</span><span>7</span><button onclick="addToCart('خيار لبن صغير',7)">+</button></div>
+<!-- باقي المقبلات -->
+</section>
+
+<!-- ===== قسم الكنافه ===== -->
+<section class="menu-section">
+<h2>قسم الكنافه</h2>
+<div class="menu-item"><img src="placeholder.png" alt=""><span>كنافه قشطه</span><span>10</span><button onclick="addToCart('كنافه قشطه',10)">+</button></div>
+</section>
+
+<!-- ===== قسم المشروبات ===== -->
+<section class="menu-section">
+<h2>قسم المشروبات</h2>
+<div class="menu-item"><img src="placeholder.png" alt=""><span>ببسي وسط</span><span>6</span><button onclick="addToCart('ببسي وسط',6)">+</button></div>
+<div class="menu-item"><img src="placeholder.png" alt=""><span>لبن مراعي كبير</span><span>11</span><button onclick="addToCart('لبن مراعي كبير',11)">+</button></div>
+<!-- باقي المشروبات -->
+</section>
+
+<!-- زر السلة -->
+<div id="cart" onclick="openCart()">🛒 عرض السلة</div>
+
+<div id="cartModal">
+<div id="cartContent">
+<h3>سلة الطلبات</h3>
+<div id="cartItems"></div>
+<select id="deliveryOption">
+<option value="pickup">استلام - مجاني</option>
+<option value="delivery">توصيل +5 ريال</option>
+</select>
+<button onclick="sendOrder()">إرسال الطلب للواتس</button>
+<button onclick="closeCart()" style="background:#aaa;margin-top:5px;">إغلاق</button>
+</div>
+</div>
+
+<script src="menu.js"></script>
+</body>
+</html>
