@@ -1,0 +1,58 @@
+<ul>
+  <li><a href="chicken.html">قسم الدجاج</a></li>
+  <li><a href="meat.html">قسم اللحم</a></li>
+  <li><a href="drinks.html">قسم المشروبات</a></li>
+  <li><a href="sides.html">الأطباق الجانبية</a></li>
+  <li><a href="appetizers.html">المقبلات</a></li>
+  <li><a href="desserts.html">الحلويات</a></li>
+  <li><a href="grills.html">المشويات</a></li>
+</ul>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>قسم الشوايات</title>
+<link rel="stylesheet" href="القائمة.css">
+<script src="القائمة.js" defer></script>
+</head>
+<body>
+<header><h1>قسم الشوايات</h1></header>
+<main>
+<section class="menu-section">
+<h2>قسم المشويات</h2>
+<div class="menu-item"><img src="images/placeholder.png" alt=""><span>كيلو كباب لحم</span><span>150</span><button onclick="addToCart('كيلو كباب لحم',150)">+</button></div>
+<div class="menu-item"><img src="images/placeholder.png" alt=""><span>نص كيلو كباب لحم</span><span>76</span><button onclick="addToCart('نص كيلو كباب لحم',76)">+</button></div>
+<div class="menu-item"><img src="images/placeholder.png" alt=""><span>نفر كباب لحم</span><span>38</span><button onclick="addToCart('نفر كباب لحم',38)">+</button></div>
+
+<div class="menu-item"><img src="images/placeholder.png" alt=""><span>كيلو كباب دجاج</span><span>120</span><button onclick="addToCart('كيلو كباب دجاج',120)">+</button></div>
+<div class="menu-item"><img src="images/placeholder.png" alt=""><span>نص كيلو كباب دجاج</span><span>60</span><button onclick="addToCart('نص كيلو كباب دجاج',60)">+</button></div>
+<div class="menu-item"><img src="images/placeholder.png" alt=""><span>نفر كباب دجاج</span><span>30</span><button onclick="addToCart('نفر كباب دجاج',30)">+</button></div>
+
+<div class="menu-item"><img src="images/placeholder.png" alt=""><span>كيلو اوصل لحم</span><span>180</span><button onclick="addToCart('كيلو اوصل لحم',180)">+</button></div>
+<div class="menu-item"><img src="images/placeholder.png" alt=""><span>نص كيلو اوصل لحم</span><span>90</span><button onclick="addToCart('نص كيلو اوصل لحم',90)">+</button></div>
+<div class="menu-item"><img src="images/placeholder.png" alt=""><span>نفر اوصل الحم</span><span>45</span><button onclick="addToCart('نفر اوصل الحم',45)">+</button></div>
+
+<div class="menu-item"><img src="images/placeholder.png" alt=""><span>كيلو شيش طاوق</span><span>120</span><button onclick="addToCart('كيلو شيش طاوق',120)">+</button></div>
+<div class="menu-item"><img src="images/placeholder.png" alt=""><span>نص كيلو شيش طاوق</span><span>60</span><button onclick="addToCart('نص كيلو شيش طاوق',60)">+</button></div>
+<div class="menu-item"><img src="images/placeholder.png" alt=""><span>نفر شيش طاوق</span><span>30</span><button onclick="addToCart('نفر شيش طاوق',30)">+</button></div>
+
+<div class="menu-item"><img src="images/placeholder.png" alt=""><span>كيلو مشكل مشاوي</span><span>130</span><button onclick="addToCart('كيلو مشكل مشاوي',130)">+</button></div>
+<div class="menu-item"><img src="images/placeholder.png" alt=""><span>نص كيلو مشكل</span><span>70</span><button onclick="addToCart('نص كيلو مشكل',70)">+</button></div>
+<div class="menu-item"><img src="images/placeholder.png" alt=""><span>نفر مشكل</span><span>35</span><button onclick="addToCart('نفر مشكل',35)">+</button></div>
+</section>
+<div id="cart" onclick="openCart()">🛒 عرض السلة</div>
+<div id="cartModal">
+  <div id="cartContent">
+    <h3>سلة الطلبات</h3>
+    <div id="cartItems"></div>
+    <select id="deliveryOption">
+      <option value="pickup">استلام مجاني</option>
+      <option value="delivery">توصيل +5 ريال</option>
+    </select>
+    <button onclick="sendOrder()">إرسال للواتس</button>
+    <button onclick="closeCart()">إغلاق</button>
+  </div>
+</div>
+</body>
+</html>
