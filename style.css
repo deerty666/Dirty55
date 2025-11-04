@@ -1,0 +1,144 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #F8F8F8;
+    color: #333333;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #4A4A4A;
+    color: white;
+    padding: 30px 20px;
+    text-align: center;
+    border-bottom: 5px solid #B8860B; /* ذهبي */
+}
+
+header h1 {
+    font-size: 2.5em;
+    margin-bottom: 5px;
+}
+
+.menu {
+    width: 90%;
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
+}
+
+.menu h2 {
+    text-align: center;
+    color: #B8860B;
+    font-size: 2em;
+    padding-bottom: 15px;
+    margin-bottom: 25px;
+    border-bottom: 2px solid #ECECEC;
+}
+
+section h3 {
+    color: #4A4A4A;
+    background-color: #EEEEEE;
+    padding: 10px 15px;
+    margin-bottom: 20px;
+    border-right: 5px solid #B8860B;
+    font-size: 1.5em;
+}
+
+.menu-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px dashed #DDD;
+}
+
+.menu-item:last-child {
+    border-bottom: none;
+}
+
+.details {
+    flex-grow: 1;
+}
+
+.menu-item h4 {
+    margin: 0 0 5px 0;
+    color: #333333;
+    font-weight: bold;
+}
+
+.description {
+    font-size: 0.9em;
+    color: #666666;
+    margin: 0;
+}
+
+.price {
+    font-weight: bold;
+    color: #B8860B;
+    font-size: 1.2em;
+    white-space: nowrap;
+    margin-left: 15px;
+}
+
+/* تنسيق زر الإضافة */
+.add-to-cart-btn {
+    background-color: #5cb85c;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.add-to-cart-btn:hover {
+    background-color: #4cae4c;
+}
+
+/* تنسيق سلة الطلبات الجانبية */
+#cart-sidebar {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    width: 300px;
+    background-color: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+}
+
+#cart-sidebar h3 {
+    border-bottom: 2px solid #B8860B;
+    padding-bottom: 10px;
+    margin-top: 0;
+}
+
+#cart-items {
+    min-height: 50px;
+}
+
+.total {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-top: 15px;
+    color: #B8860B;
+    text-align: center;
+}
+
+.whatsapp-btn {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    background-color: #25D366;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+}
