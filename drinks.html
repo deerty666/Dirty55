@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>قسم المشروبات</title>
+<link rel="stylesheet" href="css/menu.css">
+</head>
+<body>
+
+<header>
+<h1>قسم المشروبات</h1>
+</header>
+
+<main>
+<section class="menu-section">
+
+<div class="menu-item">
+    <img src="images/placeholder.png" alt="ببسي وسط">
+    <span>ببسي وسط</span>
+    <span class="price">6 ريال</span>
+    <button onclick="addToCart('ببسي وسط',6)">+</button>
+</div>
+
+<div class="menu-item">
+    <img src="images/placeholder.png" alt="ببسي كبير">
+    <span>ببسي كبير</span>
+    <span class="price">9 ريال</span>
+    <button onclick="addToCart('ببسي كبير',9)">+</button>
+</div>
+
+<div class="menu-item">
+    <img src="images/placeholder.png" alt="حمضيات صغير">
+    <span>حمضيات صغير</span>
+    <span class="price">3 ريال</span>
+    <button onclick="addToCart('حمضيات صغير',3)">+</button>
+</div>
+
+<div class="menu-item">
+    <img src="images/placeholder.png" alt="حمضيات وسط">
+    <span>حمضيات وسط</span>
+    <span class="price">6 ريال</span>
+    <button onclick="addToCart('حمضيات وسط',6)">+</button>
+</div>
+
+<div class="menu-item">
+    <img src="images/placeholder.png" alt="حمضيات كبير">
+    <span>حمضيات كبير</span>
+    <span class="price">9 ريال</span>
+    <button onclick="addToCart('حمضيات كبير',9)">+</button>
+</div>
+
+<div class="menu-item">
+    <img src="images/placeholder.png" alt="سفن صغير">
+    <span>سفن صغير</span>
+    <span class="price">3 ريال</span>
+    <button onclick="addToCart('سفن صغير',3)">+</button>
+</div>
+
+<div class="menu-item">
+    <img src="images/placeholder.png" alt="سفن وسط">
+    <span>سفن وسط</span>
+    <span class="price">6 ريال</span>
+    <button onclick="addToCart('سفن وسط',6)">+</button>
+</div>
+
+<div class="menu-item">
+    <img src="images/placeholder.png" alt="سفن كبير">
+    <span>سفن كبير</span>
+    <span class="price">9 ريال</span>
+    <button onclick="addToCart('سفن كبير',9)">+</button>
+</div>
+
+<div class="menu-item">
+    <img src="images/placeholder.png" alt="لبن مراعي صغير">
+    <span>لبن مراعي صغير</span>
+    <span class="price">2 ريال</span>
+    <button onclick="addToCart('لبن مراعي صغير',2)">+</button>
+</div>
+
+<div class="menu-item">
+    <img src="images/placeholder.png" alt="لبن مراعي وسط">
+    <span>لبن مراعي وسط</span>
+    <span class="price">6 ريال</span>
+    <button onclick="addToCart('لبن مراعي وسط',6)">+</button>
+</div>
+
+<div class="menu-item">
+    <img src="images/placeholder.png" alt="لبن مراعي كبير">
+    <span>لبن مراعي كبير</span>
+    <span class="price">11 ريال</span>
+    <button onclick="addToCart('لبن مراعي كبير',11)">+</button>
+</div>
+
+<div class="menu-item">
+    <img src="images/placeholder.png" alt="لبن قريه">
+    <span>لبن قريه</span>
+    <span class="price">3 ريال</span>
+    <button onclick="addToCart('لبن قريه',3)">+</button>
+</div>
+
+</section>
+</main>
+
+<div id="cart" onclick="openCart()">🛒 عرض السلة</div>
+
+<div id="cartModal">
+  <div id="cartContent">
+    <h3>سلة الطلبات</h3>
+    <div id="cartItems"></div>
+    <select id="deliveryOption">
+      <option value="pickup">استلام - مجاني</option>
+      <option value="delivery">توصيل +5 ريال</option>
+    </select>
+    <button onclick="sendOrder()">إرسال الطلب للواتس</button>
+    <button onclick="closeCart()" style="background:#aaa;margin-top:5px;">إغلاق</button>
+  </div>
+</div>
+
+<script src="js/menu.js"></script>
+</body>
+</html>
