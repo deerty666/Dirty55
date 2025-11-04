@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>قسم الدجاج</title>
+<link rel="stylesheet" href="القائمة.css">
+<script src="القائمة.js" defer></script>
+</head>
+<body>
+<header>مطاعم ومطابخ سحايب ديرتي - الدجاج</header>
+<main>
+<section class="menu-section">
+<h2>قسم الدجاج</h2>
+<div class="menu-item"><img src="images/placeholder.png" alt=""><span>نص حبه مظبي رز شعبي</span><span>24</span><button onclick="addToCart('نص حبه مظبي رز شعبي',24)">+</button></div>
+<div class="menu-item"><img src="images/placeholder.png" alt=""><span>نص حبه مظبي رز بشاور +1</span><span>25</span><button onclick="addToCart('نص حبه مظبي رز بشاور',25)">+</button></div>
+<div class="menu-item"><img src="images/placeholder.png" alt=""><span>نص حبه مظبي رز مندي +1</span><span>25</span><button onclick="addToCart('نص حبه مظبي رز مندي',25)">+</button></div>
+<div class="menu-item"><img src="images/placeholder.png" alt=""><span>حبه كامل مدفون رز شعبي</span><span>46</span><button onclick="addToCart('حبه كامل مدفون رز شعبي',46)">+</button></div>
+<!-- أضف باقي الدجاج بنفس النمط -->
+</section>
+</main>
+<div id="cart" onclick="openCart()">🛒 عرض السلة</div>
+<div id="cartModal">
+  <div id="cartContent">
+    <h3>سلة الطلبات</h3>
+    <div id="cartItems"></div>
+    <select id="deliveryOption">
+      <option value="pickup">استلام مجاني</option>
+      <option value="delivery">توصيل +5 ريال</option>
+    </select>
+    <button onclick="sendOrder()">إرسال للواتس</button>
+    <button onclick="closeCart()">إغلاق</button>
+  </div>
+</div>
+</body>
+</html>
