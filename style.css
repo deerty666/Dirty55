@@ -1,0 +1,82 @@
+body {
+    font-family: 'Arial', sans-serif; /* خط نظيف وواضح يدعم العربية */
+    background-color: #F8F8F8; /* خلفية فاتحة (أوف وايت) للنظافة */
+    color: #333333; /* لون نص داكن لسهولة القراءة */
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #4A4A4A; /* خلفية داكنة (فحمي) للعنوان */
+    color: white;
+    padding: 30px 20px;
+    text-align: center;
+    border-bottom: 5px solid #B8860B; /* خط ذهبي فاخر يفصل العنوان */
+}
+
+header h1 {
+    font-size: 2.5em;
+    margin-bottom: 5px;
+}
+
+.menu {
+    width: 90%;
+    max-width: 900px; /* تحديد عرض أقصى وتوسيط القائمة */
+    margin: 30px auto;
+    padding: 20px;
+    background-color: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* ظل احترافي خفيف */
+    border-radius: 8px;
+}
+
+.menu h2 {
+    text-align: center;
+    color: #B8860B; /* لون ذهبي للعناوين البارزة */
+    font-size: 2em;
+    padding-bottom: 15px;
+    margin-bottom: 25px;
+    border-bottom: 2px solid #ECECEC;
+}
+
+/* تنسيق أقسام القائمة (الدجاج، اللحم، إلخ) */
+section h3 {
+    color: #4A4A4A;
+    background-color: #EEEEEE;
+    padding: 10px 15px;
+    margin-bottom: 20px;
+    border-right: 5px solid #B8860B; /* شريط جانبي ذهبي مميز للقسم */
+    font-size: 1.5em;
+}
+
+/* تنسيق عنصر الطبق الواحد (هو مفتاح الجمال والوضوح) */
+.menu-item {
+    display: flex; /* يستخدم Flexbox لترتيب العناصر أفقياً */
+    justify-content: space-between; /* فصل الاسم والسعر لأقصى اليمين واليسار */
+    align-items: flex-start;
+    padding: 15px 0;
+    border-bottom: 1px dashed #DDD; /* خط متقطع للفصل بين الأطباق */
+}
+
+.menu-item:last-child {
+    border-bottom: none; /* إزالة الخط المتقطع من آخر طبق */
+}
+
+.menu-item h4 {
+    margin: 0 0 5px 0;
+    color: #333333;
+    font-weight: bold;
+}
+
+.description {
+    font-size: 0.9em;
+    color: #666666;
+    margin: 0;
+}
+
+.price {
+    font-weight: bold;
+    color: #B8860B; /* السعر باللون الذهبي المميز */
+    font-size: 1.2em;
+    white-space: nowrap; /* يمنع انقسام رقم السعر */
+}
