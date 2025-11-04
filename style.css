@@ -1,32 +1,0 @@
-/* تنسيق عام للصفحة */
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    text-align: right;
-    padding: 20px;
-}
-
-/* 🎨 تنسيق الحاوية الرئيسية (Grid Layout) */
-#menu-sections {
-    display: grid; /* لتنظيم العناصر في شكل شبكي */
-    grid-template-columns: repeat(3, 1fr); /* 3 أعمدة متساوية لكل بطاقة */
-    gap: 15px; /* مسافة بين البطاقات */
-    margin-top: 20px;
-}
-
-/* 🖼️ تنسيق بطاقة المنيو */
-.menu-card {
-    background-color: #8B0000; /* اللون الأحمر الغامق الذي اخترته */
-    color: #FFFFFF; /* لون النص الأبيض */
-    border-radius: 12px;
-    overflow: hidden;
-    text-align: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    padding-bottom: 10px;
-}
-
-.menu-card img {
-    width: 100%;
-    height: 150px;
-    object-fit: cover;
-}
