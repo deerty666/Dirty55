@@ -1,138 +1,0 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>قسم المشويات</title>
-<link rel="stylesheet" href="css/menu.css">
-</head>
-<body>
-
-<header>
-<h1>قسم المشويات</h1>
-</header>
-
-<main>
-<section class="menu-section">
-
-<!-- كيلو / نص كيلو / نفر كباب لحم -->
-<div class="menu-item">
-    <img src="images/placeholder.png" alt="كيلو كباب لحم">
-    <span>كيلو كباب لحم</span>
-    <span class="price">150 ريال</span>
-    <button onclick="addToCart('كيلو كباب لحم',150)">+</button>
-</div>
-<div class="menu-item">
-    <img src="images/placeholder.png" alt="نص كيلو كباب لحم">
-    <span>نص كيلو كباب لحم</span>
-    <span class="price">76 ريال</span>
-    <button onclick="addToCart('نص كيلو كباب لحم',76)">+</button>
-</div>
-<div class="menu-item">
-    <img src="images/placeholder.png" alt="نفر كباب لحم">
-    <span>نفر كباب لحم</span>
-    <span class="price">38 ريال</span>
-    <button onclick="addToCart('نفر كباب لحم',38)">+</button>
-</div>
-
-<!-- كيلو / نص كيلو / نفر كباب دجاج -->
-<div class="menu-item">
-    <img src="images/placeholder.png" alt="كيلو كباب دجاج">
-    <span>كيلو كباب دجاج</span>
-    <span class="price">120 ريال</span>
-    <button onclick="addToCart('كيلو كباب دجاج',120)">+</button>
-</div>
-<div class="menu-item">
-    <img src="images/placeholder.png" alt="نص كيلو كباب دجاج">
-    <span>نص كيلو كباب دجاج</span>
-    <span class="price">60 ريال</span>
-    <button onclick="addToCart('نص كيلو كباب دجاج',60)">+</button>
-</div>
-<div class="menu-item">
-    <img src="images/placeholder.png" alt="نفر كباب دجاج">
-    <span>نفر كباب دجاج</span>
-    <span class="price">30 ريال</span>
-    <button onclick="addToCart('نفر كباب دجاج',30)">+</button>
-</div>
-
-<!-- كيلو / نص كيلو / نفر اوصل لحم -->
-<div class="menu-item">
-    <img src="images/placeholder.png" alt="كيلو اوصل لحم">
-    <span>كيلو اوصل لحم</span>
-    <span class="price">180 ريال</span>
-    <button onclick="addToCart('كيلو اوصل لحم',180)">+</button>
-</div>
-<div class="menu-item">
-    <img src="images/placeholder.png" alt="نص كيلو اوصل لحم">
-    <span>نص كيلو اوصل لحم</span>
-    <span class="price">90 ريال</span>
-    <button onclick="addToCart('نص كيلو اوصل لحم',90)">+</button>
-</div>
-<div class="menu-item">
-    <img src="images/placeholder.png" alt="نفر اوصل الحم">
-    <span>نفر اوصل الحم</span>
-    <span class="price">45 ريال</span>
-    <button onclick="addToCart('نفر اوصل الحم',45)">+</button>
-</div>
-
-<!-- كيلو / نص كيلو / نفر شيش طاوق -->
-<div class="menu-item">
-    <img src="images/placeholder.png" alt="كيلو شيش طاوق">
-    <span>كيلو شيش طاوق</span>
-    <span class="price">120 ريال</span>
-    <button onclick="addToCart('كيلو شيش طاوق',120)">+</button>
-</div>
-<div class="menu-item">
-    <img src="images/placeholder.png" alt="نص كيلو شيش طاوق">
-    <span>نص كيلو شيش طاوق</span>
-    <span class="price">60 ريال</span>
-    <button onclick="addToCart('نص كيلو شيش طاوق',60)">+</button>
-</div>
-<div class="menu-item">
-    <img src="images/placeholder.png" alt="نفر شيش طاوق">
-    <span>نفر شيش طاوق</span>
-    <span class="price">30 ريال</span>
-    <button onclick="addToCart('نفر شيش طاوق',30)">+</button>
-</div>
-
-<!-- كيلو / نص كيلو / نفر مشكل مشاوي -->
-<div class="menu-item">
-    <img src="images/placeholder.png" alt="كيلو مشكل مشاوي">
-    <span>كيلو مشكل مشاوي</span>
-    <span class="price">130 ريال</span>
-    <button onclick="addToCart('كيلو مشكل مشاوي',130)">+</button>
-</div>
-<div class="menu-item">
-    <img src="images/placeholder.png" alt="نص كيلو مشكل">
-    <span>نص كيلو مشكل</span>
-    <span class="price">70 ريال</span>
-    <button onclick="addToCart('نص كيلو مشكل',70)">+</button>
-</div>
-<div class="menu-item">
-    <img src="images/placeholder.png" alt="نفر مشكل">
-    <span>نفر مشكل</span>
-    <span class="price">35 ريال</span>
-    <button onclick="addToCart('نفر مشكل',35)">+</button>
-</div>
-
-</section>
-</main>
-
-<div id="cart" onclick="openCart()">🛒 عرض السلة</div>
-
-<div id="cartModal">
-  <div id="cartContent">
-    <h3>سلة الطلبات</h3>
-    <div id="cartItems"></div>
-    <select id="deliveryOption">
-      <option value="pickup">استلام - مجاني</option>
-      <option value="delivery">توصيل +5 ريال</option>
-    </select>
-    <button onclick="sendOrder()">إرسال الطلب للواتس</button>
-    <button onclick="closeCart()" style="background:#aaa;margin-top:5px;">إغلاق</button>
-  </div>
-</div>
-
-<script src="js/menu.js"></script>
-</body>
-</html>
