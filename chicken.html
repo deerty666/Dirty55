@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>قسم الدجاج</title>
+<link rel="stylesheet" href="القائمة.css">
+<script src="القائمة.js" defer></script>
+</head>
+<body>
+<header><h1>قسم الدجاج</h1></header>
+<main>
+<section class="menu-section">
+<h2>قسم الدجاج</h2>
+<div class="menu-item"><img src="images/placeholder.png" alt=""><span>نص حبه مظبي رز شعبي</span><span>24</span><button onclick="addToCart('نص حبه مظبي رز شعبي',24)">+</button></div>
+<div class="menu-item"><img src="images/placeholder.png" alt=""><span>نص حبه مندي رز شعبي</span><span>25</span><button onclick="addToCart('نص حبه مندي رز شعبي',25)">+</button></div>
+<div class="menu-item"><img src="images/placeholder.png" alt=""><span>حبه كامل مدفون رز شعبي</span><span>46</span><button onclick="addToCart('حبه كامل مدفون رز شعبي',46)">+</button></div>
+<div class="menu-item"><img src="images/placeholder.png" alt=""><span>نص حبه مدفون رز شعبي</span><span>24</span><button onclick="addToCart('نص حبه مدفون رز شعبي',24)">+</button></div>
+<div class="menu-item"><img src="images/placeholder.png" alt=""><span>نص دجاج مقلوبه</span><span>25</span><button onclick="addToCart('نص دجاج مقلوبه',25)">+</button></div>
+<div class="menu-item"><img src="images/placeholder.png" alt=""><span>حبه دجاج مضغوط</span><span>50</span><button onclick="addToCart('حبه دجاج مضغوط',50)">+</button></div>
+<div class="menu-item"><img src="images/placeholder.png" alt=""><span>نص حبه مضغوط</span><span>25</span><button onclick="addToCart('نص حبه مضغوط',25)">+</button></div>
+<div class="menu-item"><img src="images/placeholder.png" alt=""><span>حبه دجاج زربيان</span><span>50</span><button onclick="addToCart('حبه دجاج زربيان',50)">+</button></div>
+<div class="menu-item"><img src="images/placeholder.png" alt=""><span>نص حبه زربيان</span><span>25</span><button onclick="addToCart('نص حبه زربيان',25)">+</button></div>
+</section>
+<div id="cart" onclick="openCart()">🛒 عرض السلة</div>
+<div id="cartModal">
+  <div id="cartContent">
+    <h3>سلة الطلبات</h3>
+    <div id="cartItems"></div>
+    <select id="deliveryOption">
+      <option value="pickup">استلام مجاني</option>
+      <option value="delivery">توصيل +5 ريال</option>
+    </select>
+    <button onclick="sendOrder()">إرسال للواتس</button>
+    <button onclick="closeCart()">إغلاق</button>
+  </div>
+</div>
+</body>
+</html>
