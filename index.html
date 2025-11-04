@@ -1,63 +1,0 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ديرتي - قائمة الطعام</title>
-    
-    <link rel="manifest" href="/manifest.json"> 
-    <link rel="stylesheet" href="style.css"> 
-</head>
-<body>
-
-    <header>
-        <h1>مطاعم سحايب ديرتي</h1>
-        <button id="installButton" style="display:none;">تثبيت المنيو 📲</button>
-    </header>
-
-    <h2>الأطباق الرئيسية</h2>
-
-    <section id="menu-sections">
-        
-        <div class="menu-card">
-            <img src="/images/دجاج-شواية.jpg" alt="دجاج شواية">
-            <h2>قسم الدجاج</h2>
-            <button onclick="addToCart('D01', 'دجاج شواية كامل', 35.00)">أضف (35 ر.س)</button>
-        </div>
-
-        <div class="menu-card">
-            <img src="/images/لحم-مندي.jpg" alt="لحم مندي">
-            <h2>قسم اللحم</h2>
-            <button onclick="addToCart('M01', 'لحم مندي', 90.00)">أضف (90 ر.س)</button>
-        </div>
-
-        <div class="menu-card">
-            <img src="/images/مشويات-مشكلة.jpg" alt="مشويات مشكلة">
-            <h2>قسم المشويات</h2>
-            <button onclick="addToCart('S01', 'مشويات مشكلة', 60.00)">أضف (60 ر.س)</button>
-        </div>
-        
-    </section>
-
-    <hr>
-    
-    <section id="cart-checkout">
-        <h2>سلة الطلبات 🛒</h2>
-        
-        <div id="cart-details">
-            <p>السلة فارغة.</p>
-        </div>
-        
-        <div id="customer-info">
-            <input type="text" id="customerName" placeholder="اسمك الكريم" required>
-            <input type="tel" id="customerPhone" placeholder="رقم جوالك" required>
-        </div>
-
-        <button id="sendOrderBtn" class="checkout-button">
-            إرسال الطلب عبر واتساب
-        </button>
-    </section>
-    
-    <script src="script.js"></script>
-</body>
-</html>
