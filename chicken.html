@@ -1,128 +1,0 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>قسم الدجاج</title>
-<link rel="stylesheet" href="css/menu.css">
-</head>
-<body>
-
-<header>
-<h1>قسم الدجاج</h1>
-</header>
-
-<main>
-<section class="menu-section">
-
-<!-- مثال على نص/حبه مظبي -->
-<div class="menu-item">
-    <img src="images/placeholder.png" alt="مظبي">
-    <span>مظبي</span>
-    <span class="price">حدد الكمية</span>
-    <select onchange="selectChickenOption(this,'مظبي')">
-        <option value="">اختر</option>
-        <option value="نص - 24 ريال">نص حبه</option>
-        <option value="حبه كامل - 46 ريال">حبه كامل (+اختيار رز)</option>
-    </select>
-</div>
-
-<!-- مثال على نص/حبه مندي -->
-<div class="menu-item">
-    <img src="images/placeholder.png" alt="مندي">
-    <span>مندي</span>
-    <span class="price">حدد الكمية</span>
-    <select onchange="selectChickenOption(this,'مندي')">
-        <option value="">اختر</option>
-        <option value="نص - 24 ريال">نص حبه</option>
-        <option value="حبه كامل - 46 ريال">حبه كامل (+اختيار رز)</option>
-    </select>
-</div>
-
-<!-- مثال على نص/حبه مدفون -->
-<div class="menu-item">
-    <img src="images/placeholder.png" alt="مدفون">
-    <span>مدفون</span>
-    <span class="price">حدد الكمية</span>
-    <select onchange="selectChickenOption(this,'مدفون')">
-        <option value="">اختر</option>
-        <option value="نص - 24 ريال">نص حبه</option>
-        <option value="حبه كامل - 46 ريال">حبه كامل (+اختيار رز)</option>
-    </select>
-</div>
-
-<!-- مثال على نصف دجاج مقلوبة -->
-<div class="menu-item">
-    <img src="images/placeholder.png" alt="مقلوبة">
-    <span>مقلوبة</span>
-    <span class="price">25 ريال</span>
-    <button onclick="addToCart('نص دجاج مقلوبه',25)">+</button>
-</div>
-
-<!-- مثال على نص/حبه مضغوط -->
-<div class="menu-item">
-    <img src="images/placeholder.png" alt="مضغوط">
-    <span>مضغوط</span>
-    <span class="price">حدد الكمية</span>
-    <select onchange="selectChickenOption(this,'مضغوط')">
-        <option value="">اختر</option>
-        <option value="نص - 25 ريال">نص حبه</option>
-        <option value="حبه كامل - 50 ريال">حبه كامل (+اختيار رز)</option>
-    </select>
-</div>
-
-<!-- مثال على نص/حبه زربيان -->
-<div class="menu-item">
-    <img src="images/placeholder.png" alt="زربيان">
-    <span>زربيان</span>
-    <span class="price">حدد الكمية</span>
-    <select onchange="selectChickenOption(this,'زربيان')">
-        <option value="">اختر</option>
-        <option value="نص - 25 ريال">نص حبه</option>
-        <option value="حبه كامل - 50 ريال">حبه كامل (+اختيار رز)</option>
-    </select>
-</div>
-
-</section>
-</main>
-
-<div id="cart" onclick="openCart()">🛒 عرض السلة</div>
-
-<div id="cartModal">
-  <div id="cartContent">
-    <h3>سلة الطلبات</h3>
-    <div id="cartItems"></div>
-    <select id="deliveryOption">
-      <option value="pickup">استلام - مجاني</option>
-      <option value="delivery">توصيل +5 ريال</option>
-    </select>
-    <button onclick="sendOrder()">إرسال الطلب للواتس</button>
-    <button onclick="closeCart()" style="background:#aaa;margin-top:5px;">إغلاق</button>
-  </div>
-</div>
-
-<script src="js/menu.js"></script>
-<script>
-// اختيار الدجاج مع رز عند الحبه الكاملة
-function selectChickenOption(select, name) {
-    let value = select.value;
-    if(!value) return;
-
-    if(value.includes("حبه كامل")) {
-        let rice = prompt("اختر نوع الرز: شعبي (0 ريال), بشاور (+1 ريال), مندي (+1 ريال)", "شعبي");
-        let price = 0;
-        if(rice.toLowerCase() === "بشاور") price = 1;
-        if(rice.toLowerCase() === "مندي") price = 1;
-
-        let basePrice = parseInt(value.match(/\d+/)[0]);
-        addToCart(`${name} - حبه كامل مع رز ${rice}`, basePrice + price);
-    } else {
-        let basePrice = parseInt(value.match(/\d+/)[0]);
-        addToCart(`${name} - ${value.split('-')[0].trim()}`, basePrice);
-    }
-
-    select.value = "";
-}
-</script>
-</body>
-</html>
