@@ -1,91 +1,0 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>مطاعم ومطابخ سحايب ديرتي</title>
-<link rel="stylesheet" href="القائمة.css">
-<script src="القائمة.js" defer></script>
-<style>
-/* تصميم خاص بالصفحة الرئيسية */
-.sections-list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin: 20px 0;
-}
-.section-card {
-  background: #fff;
-  border-radius: 10px;
-  margin: 10px;
-  padding: 20px;
-  width: 200px;
-  text-align: center;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-  cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-.section-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 10px rgba(0,0,0,0.15);
-}
-.section-card img {
-  width: 100px;
-  height: 100px;
-  object-fit: cover;
-  border-radius: 50%;
-  margin-bottom: 10px;
-}
-</style>
-</head>
-<body>
-<header>
-<h1>مطاعم ومطابخ سحايب ديرتي</h1>
-<p>اختر القسم الذي تريد تصفحه</p>
-</header>
-
-<main>
-<div class="sections-list">
-  <div class="section-card" onclick="window.location.href='دجاج.html'">
-    <img src="images/chicken.png" alt="قسم الدجاج">
-    <h3>الدجاج</h3>
-  </div>
-  <div class="section-card" onclick="window.location.href='المقبلات.html'">
-    <img src="images/appetizers.png" alt="قسم المقبلات">
-    <h3>المقبلات</h3>
-  </div>
-  <div class="section-card" onclick="window.location.href='المشروبات.html'">
-    <img src="images/drinks.png" alt="قسم المشروبات">
-    <h3>المشروبات</h3>
-  </div>
-  <div class="section-card" onclick="window.location.href='الشوايات.html'">
-    <img src="images/grills.png" alt="قسم الشوايات">
-    <h3>الشوايات</h3>
-  </div>
-  <div class="section-card" onclick="window.location.href='kunafa.html'">
-    <img src="images/kunafa.png" alt="قسم الكنافة">
-    <h3>الكنافة</h3>
-  </div>
-  <div class="section-card" onclick="window.location.href='meat.html'">
-    <img src="images/meat.png" alt="قسم اللحوم">
-    <h3>اللحوم</h3>
-  </div>
-</div>
-</main>
-
-<div id="cart" onclick="openCart()">🛒 عرض السلة</div>
-<div id="cartModal">
-  <div id="cartContent">
-    <h3>سلة الطلبات</h3>
-    <div id="cartItems"></div>
-    <select id="deliveryOption">
-      <option value="pickup">استلام مجاني</option>
-      <option value="delivery">توصيل +5 ريال</option>
-    </select>
-    <button onclick="sendOrder()">إرسال للواتس</button>
-    <button onclick="closeCart()">إغلاق</button>
-  </div>
-</div>
-
-</body>
-</html>
