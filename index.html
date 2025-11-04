@@ -1,181 +1,0 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>قائمة طعام المطعم الاحترافية</title>
-    
-    <link rel="stylesheet" href="style.css"> 
-
-</head>
-<body>
-
-    <header>
-        <h1>مطاعم ومطابخ سحايب</h1>
-        <p>نقدم لكم أشهى الأطباق المطهوة بعناية</p>
-    </header>
-
-    <div class="menu">
-        <h2>🍽 قائمة الطعام الرئيسية 🍽</h2>
-
-        <section id="chicken">
-            <h3>قسم الدجاج 🍗</h3>
-            <div class="menu-item">
-                <div class="details">
-                    <h4 data-name="نصف دجاجة مشوية">نصف دجاجة مشوية</h4>
-                    <p class="description">دجاجة طازجة متبلة بخلطتنا الخاصة ومشوية على الفحم.</p>
-                </div>
-                <span class="price" data-price="55">55 ريال</span>
-                <button class="add-to-cart-btn">أضف للسلة</button>
-            </div>
-            <div class="menu-item">
-                <div class="details">
-                    <h4 data-name="شيش طاووق">شيش طاووق</h4>
-                    <p class="description">أسياخ شيش طاووق متبلة بالزبادي والبابريكا، مشوية.</p>
-                </div>
-                <span class="price" data-price="60">60 ريال</span>
-                <button class="add-to-cart-btn">أضف للسلة</button>
-            </div>
-        </section>
-
-        <section id="meat">
-            <h3>قسم اللحم 🥩</h3>
-            <div class="menu-item">
-                <div class="details">
-                    <h4 data-name="منسف لحم ضأن">منسف لحم ضأن</h4>
-                    <p class="description">قطع لحم ضأن مطهوة بمرقة الجميد التقليدية وتقدم مع الأرز.</p>
-                </div>
-                <span class="price" data-price="85">85 ريال</span>
-                <button class="add-to-cart-btn">أضف للسلة</button>
-            </div>
-        </section>
-        
-        <section id="grills">
-            <h3>قسم المشويات 🔥</h3>
-            <div class="menu-item">
-                <div class="details">
-                    <h4 data-name="كباب حلبي">كباب حلبي</h4>
-                    <p class="description">أسياخ لحم مفروم متبلة ببهارات حلب الفريدة، مشوية على الفحم.</p>
-                </div>
-                <span class="price" data-price="70">70 ريال</span>
-                <button class="add-to-cart-btn">أضف للسلة</button>
-            </div>
-        </section>
-        
-        <section id="stews">
-            <h3>قسم الإيدامات 🍲</h3>
-            <div class="menu-item">
-                <div class="details">
-                    <h4 data-name="إيدام البامية باللحم">إيدام البامية باللحم</h4>
-                    <p class="description">بامية طازجة مطهوة بصوص الطماطم والكزبرة واللحم.</p>
-                </div>
-                <span class="price" data-price="40">40 ريال</span>
-                <button class="add-to-cart-btn">أضف للسلة</button>
-            </div>
-        </section>
-        
-        <section id="appetizers">
-            <h3>قسم المقبلات 🥗</h3>
-            <div class="menu-item">
-                <div class="details">
-                    <h4 data-name="سلطة خضراء">سلطة خضراء</h4>
-                    <p class="description">خضروات موسمية طازجة مع صوص الليمون والزيت الزيتون.</p>
-                </div>
-                <span class="price" data-price="25">25 ريال</span>
-                <button class="add-to-cart-btn">أضف للسلة</button>
-            </div>
-        </section>
-        
-        <section id="sides">
-            <h3>قسم الأطباق الجانبية 🍚</h3>
-            <div class="menu-item">
-                <div class="details">
-                    <h4 data-name="أرز أبيض سادة">أرز أبيض سادة</h4>
-                    <p class="description">أرز بسمتي فاخر مطهو على البخار.</p>
-                </div>
-                <span class="price" data-price="15">15 ريال</span>
-                <button class="add-to-cart-btn">أضف للسلة</button>
-            </div>
-        </section>
-        
-        <section id="drinks">
-            <h3>قسم المشروبات 🍹</h3>
-            <div class="menu-item">
-                <div class="details">
-                    <h4 data-name="عصير برتقال طازج">عصير برتقال طازج</h4>
-                    <p class="description">عصير برتقال معصور طازج بدون إضافات.</p>
-                </div>
-                <span class="price" data-price="15">15 ريال</span>
-                <button class="add-to-cart-btn">أضف للسلة</button>
-            </div>
-        </section>
-        
-        <section id="desserts">
-            <h3>قسم الحلويات 🍰</h3>
-            <div class="menu-item">
-                <div class="details">
-                    <h4 data-name="كنافة نابلسية">كنافة نابلسية</h4>
-                    <p class="description">كنافة بالجبن العكاوي والمكسرات، مغطاة بالقطر.</p>
-                </div>
-                <span class="price" data-price="35">35 ريال</span>
-                <button class="add-to-cart-btn">أضف للسلة</button>
-            </div>
-        </section>
-
-    </div> 
-
-
-    <button id="open-cart-btn" style="position: fixed; bottom: 20px; left: 20px; padding: 15px 25px; background-color: #B8860B; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
-        عرض السلة (<span id="cart-item-count">0</span>)
-    </button>
-
-
-    <div id="checkout-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn">&times;</span>
-            <h3>🛒 مراجعة الطلب وخيارات الدفع</h3>
-            
-            <div id="modal-cart-items">
-                </div>
-            
-            <hr>
-
-            <div id="shipping-options">
-                <h4>اختر طريقة الاستلام:</h4>
-                <label>
-                    <input type="radio" name="shipping" value="delivery" checked> 
-                    توصيل 🚚 (+5.00 ريال)
-                </label><br>
-                <label>
-                    <input type="radio" name="shipping" value="pickup"> 
-                    استلام من المطعم 🏃 (مجاني)
-                </label>
-            </div>
-
-            <input type="text" id="delivery-address" placeholder="الرجاء كتابة العنوان كاملاً" style="width: 95%; padding: 10px; margin-top: 10px; border: 1px solid #ccc;">
-
-            <div class="total">
-                الإجمالي النهائي: <span id="final-total">0.00</span> ريال
-            </div>
-            
-            <a href="#" class="whatsapp-btn" id="send-order-btn" target="_blank">إرسال الطلب عبر واتساب</a>
-        </div>
-    </div>
-    
-    <div id="install-prompt-modal" class="modal" style="z-index: 3000;">
-        <div class="modal-content" style="max-width: 400px; text-align: center;">
-            <h3>✨ تطبيقنا جاهز!</h3>
-            <p>هل تريد تثبيت تطبيق المطعم على هاتفك للطلب السريع وحفظ القائمة؟</p>
-            
-            <div style="margin-top: 20px;">
-                <a href="./index.html" id="install-btn" class="whatsapp-btn install-app-btn">تثبيت التطبيق الآن</a>
-                
-                <button id="close-install-btn" class="close-install-btn-style">ليس الآن</button>
-            </div>
-        </div>
-    </div>
-
-    <script src="script.js"></script> 
-    
-</body>
-</html>
