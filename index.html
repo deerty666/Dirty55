@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>مطاعم سحايب ديرتي</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+:root{
+  --brown-dark:#2f1b12;
+  --brown:#3b2314;
+  --gold:#d3a15e;
+  --cream:#f6e9d6;
+}
+body { font-family: 'Cairo', sans-serif; background: linear-gradient(180deg,var(--brown-dark), #2b1a10); color:var(--cream); margin:0; }
+.glass { background: rgba(255,255,255,0.03); backdrop-filter: blur(4px); border:1px solid rgba(255,255,255,0.03); }
+input, textarea { background: rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:var(--cream); }
+button { cursor:pointer; }
+</style>
+</head>
+<body class="min-h-screen">
+
+<header class="p-5">
+  <div class="max-w-3xl mx-auto">
+    <div class="flex items-center justify-between">
+      <h1 class="text-3xl font-extrabold" style="color:var(--gold);">مطاعم سحايب ديرتي</h1>
+      <button id="cartBtn" class="relative glass p-2 rounded-lg">🛒
+        <span id="cartCount" class="absolute -top-1 -left-1 bg-amber-400 text-brown-900 text-xs rounded-full px-2">0</span>
+      </button>
+    </div>
+    <div class="mt-4">
+      <input id="searchInput" dir="rtl" placeholder="ابحث عن طبق أو مشروب..." class="w-full p-3 rounded-full glass placeholder:opacity-60" />
+    </div>
+    <div id="sections" class="mt-4 flex gap-3 overflow-x-auto py-2"></div>
+  </div>
+</header>
+
+<main class="max-w-3xl mx-auto pb-28">
+  <div id="menuList" class="grid grid-cols-1 gap-4 p-4"></div>
+</main>
+
+<nav class="fixed bottom-0 left-0 right-0 p-3 glass z-40">
+  <div class="max-w-3xl mx-auto flex justify-between items-center">
+    <div class="flex gap-6 items-center">
+      <button id="homeBtn" class="flex flex-col items-center text-sm">🍽<span>القائمة</span></button>
+      <button id="contactBtn" class="flex flex-col items-center text-sm">📞<span>تواصل</span></button>
+      <button id="aboutBtn" class="flex flex-col items-center text-sm">ℹ️<span>حولنا</span></button>
+    </div>
+    <div>
+      <button id="openCartBottom" class="px-4 py-2 rounded-lg" style="background:var(--gold); color:#2b1a10; font-weight:700;">
+        عرض السلة — <span id="cartTotal">0 ريال</span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- Cart Drawer -->
+<div id="cartDrawer" class="fixed inset-0 hidden z-50">
+  <div class="absolute inset-0 bg-black/40" id="cartOverlay"></div>
+  <div class="absolute bottom-0 left-0 right-0 bg-[#21140f] rounded-t-2xl p-5 max-h-[80vh] overflow-y-auto">
+    <div class="flex justify-between items-center">
+      <h3 class="text-xl font-bold">السلة</h3>
+      <button id="closeCart" class="text-xl">✖️</button>
+    </div>
+    <div id="cartItems" class="mt-4 space-y-3"></div>
+
+    <div class="mt-4 border-t border-white/10 pt-4 flex justify-between items-center">
+      <div class="text-lg">الإجمالي</div>
+      <div id="cartTotalBottom" class="text-2xl font-bold">0 ريال</div>
+    </div>
+
+    <div class="mt-4 flex gap-3">
+      <button id="sendWhatsapp" class="flex-1 py-3 rounded-lg" style="background:var(--gold); color:#2b1a10; font-weight:700;">إرسال عبر واتساب</button>
+      <button id="clearCart" class="flex-1 py-3 rounded-lg glass">مسح السلة</button>
+    </div>
+  </div>
+</div>
+<!-- Modal -->
+<div id="productModal" class="fixed inset-0 hidden z-50 items-end md:items-center justify-center p-4">
+  <div class="bg-[#231610] w-full md:max-w-lg rounded-t-2xl md:rounded-2xl p-5 glass">
+    <div class="flex justify-between items-start">
+      <div>
+        <h2 id="modalTitle" class="text-2xl font-bold"></h2>
+        <p id="modalSub" class="opacity-60"></p>
+      </div>
+      <button id="closeModal" class="text-xl">✖️</button>
+    </div>
+    <div id="modalOptions" class="mt-4 space-y-4"></div>
+    <div class="mt-4 flex justify-between items-center">
+      <div class="text-xl font-bold" id="modalPrice">0 ريال</div>
+      <div>
+        <button id="addToCartBtn" class="px-4 py-2 rounded-lg" style="background:var(--gold); color:#2b1a10; font-weight:700;">أضف للسلة 🛒</button>
+      </div>
+    </div>
+  </div>
+  <script>
+/********** بيانات المنيو **********/
+const menuData = [
+  {section:"الشوايه",items:[
+    {id:"sh1",icon:"🍗",name:"شواية - حبة كاملة (رز شعبي)",price:46},
+    {id:"sh2",icon:"🍗",name:"شواية - نصف حبة (رز شعبي)",price:24},
+    {id:"sh3",icon:"🍗",name:"شواية - حبة كاملة (رز بشاور)",price:50},
+    {id:"sh4",icon:"🍗",name:"شواية - نصف حبة (رز بشاور)",price:25},
+    {id:"sh5",icon:"🍗",name:"شواية - حبة كاملة (رز مندي)",price:50},
+    {id:"sh6",icon:"🍗",name:"شواية - نصف حبة (رز مندي)",price:25},
+    {id:"sh7",icon:"🍗",name:"شواية - حبة كاملة (رز مثلوثه)",price:50},
+    {id:"sh8",icon:"🍗",name:"شواية - نصف حبة (رز مثلوثه)",price:25}
+  ]},
+  {section:"مظبي",items:[
+    {id:"md1",icon:"🍖",name:"مظبي - حبة كاملة (رز شعبي)",price:46},
+    {id:"md2",icon:"🍖",name:"مظبي - نصف حبة (رز شعبي)",price:24},
+    {id:"md3",icon:"🍖",name:"مظبي - حبة كاملة (رز بشاور)",price:50},
+    {id:"md4",icon:"🍖",name:"مظبي - نصف حبة (رز بشاور)",price:25},
+    {id:"md5",icon:"🍖",name:"مظبي - حبة كاملة (رز مندي)",price:50},
+    {id:"md6",icon:"🍖",name:"مظبي - نصف حبة (رز مندي)",price:25},
+    {id:"md7",icon:"🍖",name:"مظبي - حبة كاملة (رز مثلوثه)",price:50},
+    {id:"md8",icon:"🍖",name:"مظبي - نصف حبة (رز مثلوثه)",price:25}
+  ]},
+  {section:"مندي",items:[
+    {id:"mn1",icon:"🍛",name:"مندي - حبة كاملة (رز شعبي)",price:46},
+    {id:"mn2",icon:"🍛",name:"مندي - نصف حبة (رز شعبي)",price:24},
+    {id:"mn3",icon:"🍛",name:"مندي - حبة كاملة (رز بشاور)",price:50},
+    {id:"mn4",icon:"🍛",name:"مندي - نصف حبة (رز بشاور)",price:25},
+    {id:"mn5",icon:"🍛",name:"مندي - حبة كاملة (رز مندي)",price:50},
+    {id:"mn6",icon:"🍛",name:"مندي - نصف حبة (رز مندي)",price:25},
+    {id:"mn7",icon:"🍛",name:"مندي - حبة كاملة (رز مثلوثه)",price:50},
+    {id:"mn8",icon:"🍛",name:"مندي - نصف حبة (رز مثلوثه)",price:25}
+  ]}
+];
+
+/********** المتغيرات الأساسية **********/
+const sectionsEl = document.getElementById('sections');
+const menuList = document.getElementById('menuList');
+const searchInput = document.getElementById('searchInput');
+const productModal = document.getElementById('productModal');
+const modalTitle = document.getElementById('modalTitle');
+const modalSub = document.getElementById('modalSub');
+const modalOptions = document.getElementById('modalOptions');
+const modalPrice = document.getElementById('modalPrice');
+const addToCartBtn = document.getElementById('addToCartBtn');
+const closeModal = document.getElementById('closeModal');
+
+const cartDrawer = document.getElementById('cartDrawer');
+const cartOverlay = document.getElementById('cartOverlay');
+const cartItemsEl = document.getElementById('cartItems');
+const cartTotal = document.getElementById('cartTotal');
+const cartTotalBottom = document.getElementById('cartTotalBottom');
+const cartCount = document.getElementById('cartCount');
+
+let cart = JSON.parse(localStorage.getItem('deerty_cart')||'[]');
+  
+</div>
+    /********** وظائف عرض الأقسام والمنتجات **********/
+function renderSections(){
+  sectionsEl.innerHTML = '';
+  menuData.forEach(sec=>{
+    const btn = document.createElement('button');
+    btn.className = 'px-4 py-2 rounded-full glass whitespace-nowrap';
+    btn.textContent = sec.section;
+    btn.onclick = ()=>renderMenu(sec.items);
+    sectionsEl.appendChild(btn);
+  });
+}
+function renderMenu(items){
+  menuList.innerHTML = '';
+  items.forEach(item=>{
+    const card = document.createElement('div');
+    card.className = 'glass p-4 rounded-xl flex justify-between items-center cursor-pointer';
+    card.innerHTML = `<div class="flex items-center gap-3"><span class="text-2xl">${item.icon}</span><div><h3 class="font-bold">${item.name}</h3><p class="opacity-60">${item.price} ريال</p></div></div>`;
+    card.onclick = ()=>openModal(item);
+    menuList.appendChild(card);
+  });
+}
+
+/********** المودال **********/
+let currentItem=null;
+function openModal(item){
+  currentItem=item;
+  modalTitle.textContent=item.name;
+  modalSub.textContent='';
+  modalPrice.textContent=item.price + ' ريال';
+  modalOptions.innerHTML=`
+    <label class="flex items-center gap-2"><input type="radio" name="deliveryOption" value="0" checked> استلام بدون رسوم</label>
+    <label class="flex items-center gap-2"><input type="radio" name="deliveryOption" value="5"> توصيل 5 ريال</label>
+  `;
+  productModal.classList.remove('hidden');
+}
+closeModal.onclick=()=>productModal.classList.add('hidden');
+
+/********** إضافة للسلة **********/
+addToCartBtn.onclick=()=>{
+  const option = parseInt(document.querySelector('input[name="deliveryOption"]:checked').value);
+  const cartItem = {...currentItem, deliveryFee: option, qty:1};
+  const existIndex = cart.findIndex(c=>c.id===cartItem.id && c.deliveryFee===option);
+  if(existIndex>-1){
+    cart[existIndex].qty++;
+  }else cart.push(cartItem);
+  localStorage.setItem('deerty_cart', JSON.stringify(cart));
+  updateCartUI();
+  productModal.classList.add('hidden');
+}
+
+/********** تحديث السلة **********/
+function updateCartUI(){
+  cartItemsEl.innerHTML='';
+  let total=0, count=0;
+  cart.forEach((c,i)=>{
+    const itemTotal = (c.price + c.deliveryFee) * c.qty;
+    total += itemTotal;
+    count += c.qty;
+    const div = document.createElement('div');
+    div.className='flex justify-between items-center glass p-3 rounded-xl';
+    div.innerHTML=`
+      <div>
+        <h4 class="font-bold">${c.name}</h4>
+        <p class="opacity-60">${c.price} + ${c.deliveryFee} ريال × ${c.qty} = ${itemTotal} ريال</p>
+      </div>
+      <div class="flex items-center gap-2">
+        <button class="px-2 py-1 rounded bg-red-600 text-white" onclick="removeCartItem(${i})">-</button>
+        <span>${c.qty}</span>
+        <button class="px-2 py-1 rounded bg-green-600 text-white" onclick="addCartItem(${i})">+</button>
+      </div>
+    `;
+    cartItemsEl.appendChild(div);
+  });
+  cartTotal.textContent = total + ' ريال';
+  cartTotalBottom.textContent = total + ' ريال';
+  cartCount.textContent = count;
+}
+function removeCartItem(index){
+  if(cart[index].qty>1) cart[index].qty--;
+  else cart.splice(index,1);
+  localStorage.setItem('deerty_cart', JSON.stringify(cart));
+  updateCartUI();
+}
+function addCartItem(index){
+  cart[index].qty++;
+  localStorage.setItem('deerty_cart', JSON.stringify(cart));
+  updateCartUI();
+}
+
+/********** السلة Drawer **********/
+document.getElementById('cartBtn').onclick = ()=>cartDrawer.classList.remove('hidden');
+document.getElementById('openCartBottom').onclick = ()=>cartDrawer.classList.remove('hidden');
+document.getElementById('closeCart').onclick = ()=>cartDrawer.classList.add('hidden');
+cartOverlay.onclick = ()=>cartDrawer.classList.add('hidden');
+document.getElementById('clearCart').onclick=()=>{
+  cart=[];
+  localStorage.setItem('deerty_cart', JSON.stringify(cart));
+  updateCartUI();
+}
+
+/********** إرسال عبر واتساب **********/
+document.getElementById('sendWhatsapp').onclick=()=>{
+  if(cart.length===0) return alert('السلة فارغة!');
+  let text = 'طلب من مطاعم سحايب ديرتي:%0A';
+  cart.forEach(c=>{
+    text += `• ${c.name} × ${c.qty} (${c.deliveryFee===5?'توصيل':'استلام'}) = ${(c.price+c.deliveryFee)*c.qty} ريال%0A`;
+  });
+  text += `الإجمالي: ${cart.reduce((a,c)=>a+(c.price+c.deliveryFee)*c.qty,0)} ريال`;
+  const url = 'https://wa.me/967536803598?text='+text;
+  window.open(url,'_blank');
+}
+
+/********** البحث **********/
+searchInput.addEventListener('input', ()=>{
+  const query = searchInput.value.toLowerCase();
+  const allItems = menuData.flatMap(s=>s.items);
+  const filtered = allItems.filter(i=>i.name.toLowerCase().includes(query));
+  renderMenu(filtered);
+});
+
+/********** بدء التشغيل **********/
+renderSections();
+updateCartUI();
+</script>
+</body>
+</html>
+    
