@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>مطاعم ومطابخ سحايب ديرتي</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  body { font-family: 'Cairo', sans-serif; background-color: #f5f5f5; }
+  .glass { background: rgba(255,255,255,0.8); backdrop-filter: blur(5px); }
+</style>
+</head>
+<body class="relative">
+
+<!-- Header -->
+<header class="bg-yellow-500 text-white font-bold text-2xl p-4 text-center shadow-md">مطاعم ومطابخ سحايب ديرتي</header>
+
+<!-- Sections -->
+<div id="sections" class="flex gap-2 overflow-x-auto p-2 bg-white shadow-sm"></div>
+
+<!-- Menu List -->
+<div id="menuList" class="grid gap-4 p-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3"></div>
+
+<!-- Cart Drawer -->
+<div id="cartDrawer" class="fixed top-0 right-0 w-80 h-full bg-white shadow-xl transform translate-x-full transition-transform duration-300 flex flex-col z-50">
+  <div class="p-4 flex justify-between items-center border-b font-bold text-xl">
+    <span>سلة الطلبات</span>
+    <button id="closeCart" class="text-red-500 font-bold text-xl">✖</button>
+  </div>
+  <div class="p-4 border-b flex flex-col gap-2">
+    <label class="flex items-center gap-2"><input type="radio" name="deliveryType" value="pickup" checked> استلام بدون رسوم</label>
+    <label class="flex items-center gap-2"><input type="radio" name="deliveryType" value="delivery"> توصيل 5 ريال</label>
+  </div>
+  <div id="cartItems" class="flex-1 overflow-y-auto p-4"></div>
+  <div class="p-4 border-t flex justify-between items-center font-bold">
+    <span>الإجمالي: <span id="cartTotalBottom">0 ريال</span></span>
+    <button id="clearCart" class="px-3 py-1 rounded bg-red-500 text-white">مسح السلة</button>
+  </div>
+  <button id="sendWhatsapp" class="m-4 p-3 rounded-lg bg-green-500 text-white font-bold">إرسال عبر واتساب</button>
+</div>
+
+<div id="cartOverlay" class="fixed inset-0 bg-black opacity-50 hidden z-40"></div>
+
+<!-- Cart Button -->
+<button id="cartBtn" class="fixed bottom-4 right-4 p-4 rounded-full bg-yellow-500 text-white font-bold shadow-lg z-50">
+  🛒 <span id="cartCount" class="ml-1 bg-red-500 px-2 py-0.5 rounded-full text-sm hidden">0</span>
+</button>
+
+<!-- Toast -->
+<div id="toast" class="fixed bottom-20 right-4 bg-black text-white px-4 py-2 rounded hidden z-50"></div>
+
+<script>
+// ===== Menu Data =====
+const menuData = [
+  { section:"الشوايه", items:[
+    { id:"sh1", img:"sh1.jpg", name:"شواية - حبة كاملة (رز شعبي)", price:46 },
+    { id:"sh2", img:"sh2.jpg", name:"شواية - نصف حبة (رز شعبي)", price:24 },
+    { id:"sh3", img:"sh3.jpg", name:"شواية - حبة كاملة (رز بشاور)", price:50 },
+    { id:"sh4", img:"sh4.jpg", name:"شواية - نصف حبة (رز بشاور)", price:25 },
+    { id:"sh5", img:"sh5.jpg", name:"شواية - حبة كاملة (رز مندي)", price:50 },
+    { id:"sh6", img:"sh6.jpg", name:"شواية - نصف حبة (رز مندي)", price:25 },
+    { id:"sh7", img:"sh7.jpg", name:"شواية - حبة كاملة (مثلوثه)", price:50 }
+  ]},
+  // يمكنك إضافة بقية الأقسام هنا بنفس الطريقة...
+];
+
+// ===== Cart =====
+let cart = JSON.parse(localStorage.getItem('deerty_cart')||'[]');
+
+// ===== Elements =====
+const sectionsEl = document.getElementById('sections');
+const menuList = document.getElementById('menuList');
+const cartItemsEl = document.getElementById('cartItems');
+const cartTotalBottom = document.getElementById('cartTotalBottom');
+const cartCount = document.getElementById('cartCount');
+const toastEl = document.getElementById('toast');
+const sendWhatsappBtn = document.getElementById('sendWhatsapp');
+const cartOverlay = document.getElementById('cartOverlay');
+const cartBtn = document.getElementById('cartBtn');
+const closeCartBtn = document.getElementById('closeCart');
+const clearCartBtn = document.getElementById('clearCart');
+const cartDrawer = document.getElementById('cartDrawer');
+
+// ===== Functions =====
+function renderSections(){
+  sectionsEl.innerHTML='';
+  menuData.forEach((sec,idx)=>{
+    const btn=document.createElement('button');
+    btn.className='px-4 py-2 rounded-full glass whitespace-nowrap hover:scale-105 transition';
+    btn.innerText=sec.section;
+    btn.onclick=()=>renderMenu(sec.section);
+    sectionsEl.appendChild(btn);
+    if(idx===0) btn.click();
+  });
+}
+
+function renderMenu(sectionName){
+  menuList.innerHTML='';
+  const filtered = menuData.find(s=>s.section===sectionName);
+  if(!filtered) return;
+  filtered.items.forEach(item=>{
+    const card=document.createElement('div');
+    card.className='glass p-4 rounded-xl flex justify-between items-center shadow hover:shadow-lg transition';
+    card.innerHTML=`
+      <div class="flex items-center gap-3">
+        <img src="${item.img}" class="w-16 h-16 rounded-lg object-cover">
+        <div>
+          <h3 class="text-xl font-bold">${item.name}</h3>
+          <p class="opacity-60">${sectionName}</p>
+        </div>
+      </div>
+      <div class="flex flex-col items-end gap-2">
+        <div class="text-2xl font-extrabold">${item.price} ريال</div>
+        <button class="mt-2 px-3 py-2 rounded-lg bg-yellow-500 text-white font-bold" onclick='addToCart({...${JSON.stringify(item)}, qty:1})'>أضف للسلة 🛒</button>
+      </div>
+    `;
+    menuList.appendChild(card);
+  });
+}
+
+function addToCart(item){
+  const found=cart.find(i=>i.id===item.id && i.note===item.note);
+  if(found) found.qty+=item.qty; else cart.push(item);
+  localStorage.setItem('deerty_cart',JSON.stringify(cart));
+  renderCart();
+  showToast('تمت الإضافة للسلة');
+}
+
+function renderCart(){
+  cartItemsEl.innerHTML='';
+  let total=0,count=0;
+  cart.forEach((it,idx)=>{
+    const row=document.createElement('div');
+    row.className='flex justify-between items-center glass p-3 rounded mb-2';
+    row.innerHTML=`
+      <div class="font-bold">${it.name}</div>
+      <div class="text-right">
+        <div class="font-bold">${it.price*it.qty} ريال</div>
+        <div class="flex gap-2 mt-2 justify-end items-center">
+          <button class="glass px-2 py-1" onclick="updateQty(${idx},-1)">-</button>
+          <div class="px-2">${it.qty}</div>
+          <button class="glass px-2 py-1" onclick="updateQty(${idx},1)">+</button>
+          <button class="glass px-2 py-1" onclick="removeItem(${idx})">حذف</button>
+        </div>
+      </div>
+    `;
+    cartItemsEl.appendChild(row);
+    total+=it.price*it.qty; count+=it.qty;
+  });
+  const deliveryType=document.querySelector('input[name="deliveryType"]:checked')?.value;
+  if(deliveryType==='delivery') total+=5;
+  cartTotalBottom.innerText=total+' ريال';
+  cartCount.innerText=count;
+  cartCount.style.display=count===0?'none':'inline-block';
+}
+
+function updateQty(idx,change){
+  cart[idx].qty+=change;
+  if(cart[idx].qty<1) cart.splice(idx,1);
+  localStorage.setItem('deerty_cart',JSON.stringify(cart));
+  renderCart();
+}
+
+function removeItem(idx){ 
+  cart.splice(idx,1); 
+  localStorage.setItem('deerty_cart',JSON.stringify(cart)); 
+  renderCart(); 
+}
+
+sendWhatsappBtn.addEventListener('click',()=>{
+  if(cart.length===0){ showToast('السلة فارغة'); return; }
+  const deliveryType=document.querySelector('input[name="deliveryType"]:checked')?.value;
+  const lines=['طلب جديد من مطاعم سحايب ديرتي:'];
+  cart.forEach(it=>{ lines.push(`${it.qty} × ${it.name} — ${it.price*it.qty} ريال`); });
+  if(deliveryType==='delivery') lines.push('رسوم التوصيل: 5 ريال');
+  const total=cart.reduce((s,i)=>s+i.price*i.qty,0)+(deliveryType==='delivery'?5:0);
+  lines.push(`الإجمالي: ${total} ريال`);
+  const url=`https://wa.me/966536803598?text=${encodeURIComponent(lines.join('\n'))}`;
+  window.open(url,'_blank');
+});
+
+function showToast(msg,time=2000){ 
+  toastEl.innerText=msg; 
+  toastEl.classList.remove('hidden'); 
+  toastEl.classList.add('block'); 
+  setTimeout(()=>{ toastEl.classList.remove('block'); toastEl.classList.add('hidden'); },time); 
+}
+
+// Cart interactions
+cartBtn.onclick=()=>{cartDrawer.classList.add('translate-x-0'); cartOverlay.classList.remove('hidden');};
+cartOverlay.onclick=()=>{cartDrawer.classList.remove('translate-x-0'); cartOverlay.classList.add('hidden');};
+closeCartBtn.onclick=()=>{cartDrawer.classList.remove('translate-x-0'); cartOverlay.classList.add('hidden');};
+clearCartBtn.onclick=()=>{ cart=[]; localStorage.setItem('deerty_cart',JSON.stringify(cart)); renderCart(); showToast('تم مسح السلة'); }
+
+renderSections(); renderCart();
+</script>
+
+</body>
+</html>
