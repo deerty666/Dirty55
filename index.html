@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>مطاعم ومطابخ سحايب ديرتي — القائمة</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--gold:#d3a15e;--brown:#2b1a10;}
+body{font-family:'Cairo',sans-serif;margin:0;background:#f5f5f5;color:var(--brown);}
+header{background:linear-gradient(90deg,var(--gold),#e0b86a);color:#fff;padding:16px;text-align:center;font-size:1.4rem;font-weight:700;}
+#sections{display:flex;gap:8px;overflow-x:auto;padding:12px;background:#fff;border-bottom:1px solid rgba(0,0,0,0.05);}
+.sec-btn{background:var(--gold);color:var(--brown);padding:8px 14px;border-radius:999px;font-weight:700;border:none;cursor:pointer;white-space:nowrap;}
+#menuList{padding:14px;display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;}
+.card{background:rgba(255,255,255,0.95);backdrop-filter:blur(4px);border-radius:12px;box-shadow:0 6px 18px rgba(0,0,0,0.06);padding:12px;display:flex;justify-content:space-between;align-items:center;gap:12px;transition:transform .15s;}
+.card:hover{transform:translateY(-4px);}
+.card .left{display:flex;gap:12px;align-items:center;}
+.card img{width:84px;height:84px;border-radius:10px;object-fit:cover;}
+.card h3{margin:0;font-size:1rem;color:var(--brown);font-weight:700;}
+.card p{margin:2px 0 0;color:rgba(0,0,0,0.55);font-size:0.9rem;}
+.card .right{text-align:right;display:flex;flex-direction:column;gap:8px;align-items:flex-end;}
+.price{font-size:1.2rem;font-weight:800;color:var(--brown);}
+.add-btn{background:var(--gold);color:var(--brown);border:none;padding:8px 12px;border-radius:8px;font-weight:800;cursor:pointer;}
+#cartDrawer{position:fixed;right:0;top:0;height:100%;width:360px;background:#fff;box-shadow:-8px 0 24px rgba(0,0,0,0.15);transform:translateX(110%);transition:transform .25s;z-index:80;display:flex;flex-direction:column;}
+#cartDrawer.open{transform:translateX(0);}
+#cartOverlay{position:fixed;inset:0;background:rgba(0,0,0,0.45);display:none;z-index:70;}
+#cartOverlay.show{display:block;}
+.cart-header{padding:14px;border-bottom:1px solid rgba(0,0,0,0.06);display:flex;justify-content:space-between;align-items:center;font-weight:800;}
+#cartItems{padding:12px;overflow:auto;flex:1;}
+.cart-row{display:flex;justify-content:space-between;align-items:center;padding:8px;background:rgba(245,245,245,0.9);border-radius:8px;margin-bottom:8px;}
+.cart-row .controls{display:flex;gap:6px;align-items:center;}
+.cart-footer{padding:12px;border-top:1px solid rgba(0,0,0,0.06);display:flex;flex-direction:column;gap:8px;}
+.primary-btn{background:var(--gold);color:var(--brown);border:none;padding:10px;border-radius:8px;font-weight:800;cursor:pointer;}
+.danger-btn{background:#ef4444;color:#fff;border:none;padding:8px;border-radius:8px;cursor:pointer;}
+#cartBtn{position:fixed;bottom:18px;right:18px;background:var(--gold);color:var(--brown);padding:14px;border-radius:999px;border:none;font-weight:800;z-index:90;box-shadow:0 6px 18px rgba(0,0,0,0.12);cursor:pointer;}
+#cartCount{background:#ef4444;color:#fff;padding:2px 8px;border-radius:999px;margin-left:8px;font-weight:800;display:inline-block;}
+#toast{position:fixed;bottom:90px;right:20px;background:#111;color:#fff;padding:10px;border-radius:8px;display:none;z-index:100;}
+/* modal for options */
+#optionModal{position:fixed;inset:0;background:rgba(0,0,0,0.55);display:none;align-items:center;justify-content:center;z-index:120;}
+#optionModal .modal-content{background:#fff;padding:20px;border-radius:12px;width:90%;max-width:400px;text-align:center;}
+.option-btn{display:block;width:100%;padding:10px;margin:6px 0;border:none;background:var(--gold);color:var(--brown);border-radius:8px;font-weight:700;cursor:pointer;}
+@media(max-width:640px){#cartDrawer{width:100%;}.card img{width:72px;height:72px;}}
+</style>
+</head>
+<body>
+<header>مطاعم ومطابخ سحايب ديرتي — القائمة الكاملة</header>
+<div id="sections"></div>
+<main id="menuList"></main>
+
+<!-- Cart drawer -->
+<div id="cartOverlay"></div>
+<div id="cartDrawer">
+  <div class="cart-header">
+    <div>سلة الطلبات</div>
+    <button id="closeCartBtn" title="إغلاق">✖</button>
+  </div>
+  <div style="padding:12px;border-bottom:1px solid rgba(0,0,0,0.04);">
+    <label><input type="radio" name="deliveryType" value="pickup" checked> استلام (بدون رسوم)</label>
+    <label><input type="radio" name="deliveryType" value="delivery"> توصيل — 5 ريال</label>
+  </div>
+  <div id="cartItems"></div>
+  <div class="cart-footer">
+    <div style="display:flex;justify-content:space-between;align-items:center;font-weight:800;">
+      <div>الإجمالي</div><div id="cartTotalBottom">0 ريال</div>
+    </div>
+    <div style="display:flex;gap:8px;">
+      <button id="sendWhatsapp" class="primary-btn" style="flex:1;">إرسال عبر واتساب</button>
+      <button id="clearCart" class="danger-btn" style="width:120px;">مسح السلة</button>
+    </div>
+  </div>
+</div>
+<button id="cartBtn">🛒 <span id="cartCount" style="display:none"></span></button>
+
+<!-- Toast -->
+<div id="toast"></div>
+
+<!-- Option modal -->
+<div id="optionModal">
+  <div class="modal-content" id="modalContent">
+    <h3>اختر نوع الرز</h3>
+  </div>
+</div>
+
+<script>
+const menuData=[
+  {section:"الشوايه",items:[
+    {id:"sh",img:"sh.jpg",name:"شواية - حبة كاملة",price:46,options:["رز شعبي","رز بشاور","رز مندي","رز مثلوثه"]},
+    {id:"sh2",img:"sh.jpg",name:"شواية - نصف حبة",price:24,options:["رز شعبي","رز بشاور","رز مندي","رز مثلوثه"]}
+  ]},
+  {section:"المظبي",items:[
+    {id:"md",img:"md.jpg",name:"مظبي - حبة كاملة",price:46,options:["رز شعبي","رز بشاور","رز مندي","رز مثلوثه"]}
+  ]}
+];
+
+let cart=JSON.parse(localStorage.getItem('deerty_cart')||'[]');
+const sectionsEl=document.getElementById('sections');
+const menuList=document.getElementById('menuList');
+const cartBtn=document.getElementById('cartBtn');
+const cartCount=document.getElementById('cartCount');
+const cartDrawer=document.getElementById('cartDrawer');
+const cartOverlay=document.getElementById('cartOverlay');
+const closeCartBtn=document.getElementById('closeCartBtn');
+const cartItemsEl=document.getElementById('cartItems');
+const cartTotalBottom=document.getElementById('cartTotalBottom');
+const sendWhatsapp=document.getElementById('sendWhatsapp');
+const clearCart=document.getElementById('clearCart');
+const toast=document.getElementById('toast');
+const optionModal=document.getElementById('optionModal');
+const modalContent=document.getElementById('modalContent');
+
+function renderSections(){
+  sectionsEl.innerHTML='';
+  menuData.forEach((sec,idx)=>{
+    const btn=document.createElement('button');
+    btn.className='sec-btn';
+    btn.innerText=sec.section;
+    btn.onclick=()=>renderMenu(sec.section);
+    sectionsEl.appendChild(btn);
+    if(idx===0) btn.click();
+  });
+}
+
+function renderMenu(sectionName){
+  menuList.innerHTML='';
+  const sec=menuData.find(s=>s.section===sectionName);
+  if(!sec) return;
+  sec.items.forEach(item=>{
+    const card=document.createElement('div');
+    card.className='card';
+    card.innerHTML=`
+      <div class="left">
+        <img src="${item.img}" alt="${item.name}" onerror="this.style.opacity=.35">
+        <div>
+          <h3>${item.name}</h3>
+          <p>${sectionName}</p>
+        </div>
+      </div>
+      <div class="right">
+        <div class="price">${item.price} ريال</div>
+        <button class="add-btn">أضف للسلة</button>
+      </div>
+    `;
+    const addBtn=card.querySelector('.add-btn');
+    addBtn.onclick=()=>item.options?showOptions(item):addToCart({...item,option:''});
+    menuList.appendChild(card);
+  });
+}
+
+function showOptions(item){
+  modalContent.innerHTML='<h3>اختر نوع الرز</h3>';
+  item.options.forEach(opt=>{
+    const btn=document.createElement('button');
+    btn.className='option-btn';
+    btn.innerText=opt;
+    btn.onclick=()=>{
+      addToCart({...item,option:opt});
+      optionModal.style.display='none';
+    };
+    modalContent.appendChild(btn);
+  });
+  optionModal.style.display='flex';
+}
+
+optionModal.onclick=e=>{if(e.target===optionModal) optionModal.style.display='none';}
+
+function saveCart(){ localStorage.setItem('deerty_cart',JSON.stringify(cart)); renderCart(); }
+
+function addToCart(item){
+  const found=cart.find(i=>i.id===item.id && i.option===item.option);
+  if(found) found.qty+=1; else cart.push({...item,qty:1});
+  saveCart();
+  showToast('تمت الإضافة للسلة');
+}
+
+function renderCart(){
+  cartItemsEl.innerHTML='';
+  let total=0,count=0;
+  cart.forEach((it,idx)=>{
+    const row=document.createElement('div');
+    row.className='cart-row';
+    row.innerHTML=`
+      <div>
+        <div style="font-weight:800">${it.name} ${it.option||''}</div>
+        <div style="font-size:0.9rem;color:rgba(0,0,0,0.6)">${it.qty} × ${it.price} ريال</div>
+      </div>
+      <div class="controls">
+        <button onclick="updateQty(${idx},-1)">-</button>
+        <div style="min-width:26px;text-align:center">${it.qty}</div>
+        <button onclick="updateQty(${idx},1)">+</button>
+        <button onclick="removeItem(${idx})" style="margin-left:6px;background:#ef4444;color:#fff;padding:6px;border-radius:6px;border:none;cursor:pointer">حذف</button>
+      </div>
+    `;
+    cartItemsEl.appendChild(row);
+    total+=it.price*it.qty;
+    count+=it.qty;
+  });
+  const deliveryType=document.querySelector('input[name="deliveryType"]:checked')?.value;
+  if(deliveryType==='delivery') total+=5;
+  cartTotalBottom.innerText=total+' ريال';
+  cartCount.innerText=count;
+  cartCount.style.display=count===0?'none':'inline-block';
+  localStorage.setItem('deerty_cart',JSON.stringify(cart));
+}
+
+function updateQty(idx,change){ if(!cart[idx]) return; cart[idx].qty+=change; if(cart[idx].qty<1) cart.splice(idx,1); saveCart(); }
+function removeItem(idx){ cart.splice(idx,1); saveCart(); }
+
+sendWhatsapp.addEventListener('click',()=>{
+  if(cart.length===0){ showToast('السلة فارغة'); return; }
+  const deliveryType=document.querySelector('input[name="deliveryType"]:checked')?.value;
+  const lines=['طلب جديد من مطاعم سحايب ديرتي:'];
+  cart.forEach(it=>lines.push(`${it.qty} × ${it.name} ${it.option||''} — ${it.price*it.qty} ريال`));
+  if(deliveryType==='delivery') lines.push('رسوم التوصيل: 5 ريال');
+  const total=cart.reduce((s,i)=>s+i.price*i.qty,0)+(deliveryType==='delivery'?5:0);
+  lines.push(`الإجمالي: ${total} ريال`);
+  const url=`https://wa.me/966536803598?text=${encodeURIComponent(lines.join('\n'))}`;
+  window.open(url,'_blank');
+});
+
+clearCart.addEventListener('click',()=>{cart=[]; saveCart(); showToast('تم مسح السلة');});
+cartBtn.addEventListener('click',()=>{cartDrawer.classList.add('open');cartOverlay.classList.add('show');cartDrawer.setAttribute('aria-hidden','false');renderCart();});
+cartOverlay.addEventListener('click',()=>{cartDrawer.classList.remove('open');cartOverlay.classList.remove('show');cartDrawer.setAttribute('aria-hidden','true');});
+closeCartBtn.addEventListener('click',()=>{cartDrawer.classList.remove('open');cartOverlay.classList.remove('show');cartDrawer.setAttribute('aria-hidden','true');});
+
+function showToast(msg,time=2000){ toast.innerText=msg; toast.style.display='block'; setTimeout(()=>toast.style.display='none',time); }
+
+renderSections();
+renderCart();
+</script>
+</body>
+</html>
