@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>مطاعم ومطابخ سحايب ديرتي — القائمة</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --gold:#d3a15e;
+    --brown:#2b1a10;
+  }
+  body{font-family:'Cairo',sans-serif;margin:0;background:#f5f5f5;color:var(--brown);}
+  header{background:linear-gradient(90deg,var(--gold),#e0b86a);color:#fff;padding:16px;text-align:center;font-size:1.4rem;font-weight:700;}
+  #sections{display:flex;gap:8px;overflow-x:auto;padding:12px;background:#fff;border-bottom:1px solid rgba(0,0,0,0.05);}
+  .sec-btn{background:var(--gold);color:var(--brown);padding:8px 14px;border-radius:999px;font-weight:700;border:none;cursor:pointer;white-space:nowrap;}
+  #menuList{padding:14px;display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;}
+  .card{background:rgba(255,255,255,0.95);backdrop-filter:blur(4px);border-radius:12px;box-shadow:0 6px 18px rgba(0,0,0,0.06);padding:12px;display:flex;justify-content:space-between;align-items:center;gap:12px;transition:transform .15s;}
+  .card:hover{transform:translateY(-4px);}
+  .card .left{display:flex;gap:12px;align-items:center;}
+  .card img{width:84px;height:84px;border-radius:10px;object-fit:cover;}
+  .card h3{margin:0;font-size:1rem;color:var(--brown);font-weight:700;}
+  .card p{margin:2px 0 0;color:rgba(0,0,0,0.55);font-size:0.9rem;}
+  .card .right{text-align:right;display:flex;flex-direction:column;gap:8px;align-items:flex-end;}
+  .price{font-size:1.2rem;font-weight:800;color:var(--brown);}
+  .add-btn{background:var(--gold);color:var(--brown);border:none;padding:8px 12px;border-radius:8px;font-weight:800;cursor:pointer;}
+  /* cart drawer */
+  #cartDrawer{position:fixed;right:0;top:0;height:100%;width:360px;background:#fff;box-shadow:-8px 0 24px rgba(0,0,0,0.15);transform:translateX(110%);transition:transform .25s;z-index:80;display:flex;flex-direction:column;}
+  #cartDrawer.open{transform:translateX(0);}
+  #cartOverlay{position:fixed;inset:0;background:rgba(0,0,0,0.45);display:none;z-index:70;}
+  #cartOverlay.show{display:block;}
+  .cart-header{padding:14px;border-bottom:1px solid rgba(0,0,0,0.06);display:flex;justify-content:space-between;align-items:center;font-weight:800;}
+  #cartItems{padding:12px;overflow:auto;flex:1;}
+  .cart-row{display:flex;justify-content:space-between;align-items:center;padding:8px;background:rgba(245,245,245,0.9);border-radius:8px;margin-bottom:8px;}
+  .cart-row .controls{display:flex;gap:6px;align-items:center;}
+  .cart-footer{padding:12px;border-top:1px solid rgba(0,0,0,0.06);display:flex;flex-direction:column;gap:8px;}
+  .primary-btn{background:var(--gold);color:var(--brown);border:none;padding:10px;border-radius:8px;font-weight:800;cursor:pointer;}
+  .danger-btn{background:#ef4444;color:#fff;border:none;padding:8px;border-radius:8px;cursor:pointer;}
+  /* footer cart */
+  #cartBtn{position:fixed;bottom:18px;right:18px;background:var(--gold);color:var(--brown);padding:14px;border-radius:999px;border:none;font-weight:800;z-index:90;box-shadow:0 6px 18px rgba(0,0,0,0.12);cursor:pointer;}
+  #cartCount{background:#ef4444;color:#fff;padding:2px 8px;border-radius:999px;margin-left:8px;font-weight:800;display:inline-block;}
+  /* responsive */
+  @media (max-width:640px){
+    #cartDrawer{width:100%;}
+    .card img{width:72px;height:72px;}
+  }
+</style>
+</head>
+<body>
+
+<header>مطاعم ومطابخ سحايب ديرتي — القائمة الكاملة</header>
+
+<div id="sections" aria-hidden="false"></div>
+
+<main id="menuList" role="list"></main>
+
+<!-- Cart drawer -->
+<div id="cartOverlay"></div>
+<div id="cartDrawer" aria-hidden="true">
+  <div class="cart-header">
+    <div>سلة الطلبات</div>
+    <button id="closeCartBtn" title="إغلاق">✖</button>
+  </div>
+  <div style="padding:12px;border-bottom:1px solid rgba(0,0,0,0.04);">
+    <label style="display:block;margin-bottom:6px;"><input type="radio" name="deliveryType" value="pickup" checked> استلام (بدون رسوم)</label>
+    <label style="display:block;"><input type="radio" name="deliveryType" value="delivery"> توصيل — 5 ريال</label>
+  </div>
+  <div id="cartItems"></div>
+  <div class="cart-footer">
+    <div style="display:flex;justify-content:space-between;align-items:center;font-weight:800;">
+      <div>الإجمالي</div><div id="cartTotalBottom">0 ريال</div>
+    </div>
+    <div style="display:flex;gap:8px;">
+      <button id="sendWhatsapp" class="primary-btn" style="flex:1;">إرسال عبر واتساب</button>
+      <button id="clearCart" class="danger-btn" style="width:120px;">مسح السلة</button>
+    </div>
+  </div>
+</div>
+
+<button id="cartBtn" aria-label="عرض السلة">🛒 <span id="cartCount" style="display:none" ></span></button>
+
+<!-- Toast -->
+<div id="toast" style="position:fixed;bottom:90px;right:20px;background:#111;color:#fff;padding:10px;border-radius:8px;display:none;z-index:100;"></div>
+
+<script>
+/* ====== قائمة المنيو — كاملة ======
+   ملاحظة: كل قسم يستخدم صورة موحدة (ضع الصور في نفس مجلد index.html)
+   أمثلة أسماء الصور: sh.jpg, md.jpg, mn.jpg, mp.jpg, zr.jpg, mq.jpg, mdf.jpg,
+                      ham.jpg, grill.jpg, add.jpg, eid.jpg, g.jpg, m.jpg, kna.jpg, bev.jpg
+*/
+const menuData = [
+  { section: "الشوايه", items: [
+    { id:"sh1", img:"sh.jpg", name:"شواية - حبة كاملة (رز شعبي)", price:46 },
+    { id:"sh2", img:"sh.jpg", name:"شواية - نصف حبة (رز شعبي)", price:24 },
+    { id:"sh3", img:"sh.jpg", name:"شواية - حبة كاملة (رز بشاور)", price:50 },
+    { id:"sh4", img:"sh.jpg", name:"شواية - نصف حبة (رز بشاور)", price:25 },
+    { id:"sh5", img:"sh.jpg", name:"شواية - حبة كاملة (رز مندي)", price:50 },
+    { id:"sh6", img:"sh.jpg", name:"شواية - نصف حبة (رز مندي)", price:25 },
+    { id:"sh7", img:"sh.jpg", name:"شواية - حبة كاملة (رز مثلوثه)", price:50 },
+    { id:"sh8", img:"sh.jpg", name:"شواية - نصف حبة (رز مثلوثه)", price:25 }
+  ]},
+
+  { section: "المظبي", items: [
+    { id:"md1", img:"md.jpg", name:"مظبي - حبة كاملة (رز شعبي)", price:46 },
+    { id:"md2", img:"md.jpg", name:"مظبي - نصف حبة (رز شعبي)", price:24 },
+    { id:"md3", img:"md.jpg", name:"مظبي - حبة كاملة (رز بشاور)", price:50 },
+    { id:"md4", img:"md.jpg", name:"مظبي - نصف حبة (رز بشاور)", price:25 },
+    { id:"md5", img:"md.jpg", name:"مظبي - حبة كاملة (رز مندي)", price:50 },
+    { id:"md6", img:"md.jpg", name:"مظبي - نصف حبة (رز مندي)", price:25 },
+    { id:"md7", img:"md.jpg", name:"مظبي - حبة كاملة (رز مثلوثه)", price:50 },
+    { id:"md8", img:"md.jpg", name:"مظبي - نصف حبة (رز مثلوثه)", price:25 }
+  ]},
+
+  { section: "مندي", items: [
+    { id:"mn1", img:"mn.jpg", name:"مندي - حبة كاملة (رز شعبي)", price:46 },
+    { id:"mn2", img:"mn.jpg", name:"مندي - نصف حبة (رز شعبي)", price:24 },
+    { id:"mn3", img:"mn.jpg", name:"مندي - حبة كاملة (رز بشاور)", price:50 },
+    { id:"mn4", img:"mn.jpg", name:"مندي - نصف حبة (رز بشاور)", price:25 },
+    { id:"mn5", img:"mn.jpg", name:"مندي - حبة كاملة (رز مندي)", price:50 },
+    { id:"mn6", img:"mn.jpg", name:"مندي - نصف حبة (رز مندي)", price:25 },
+    { id:"mn7", img:"mn.jpg", name:"مندي - حبة كاملة (رز مثلوثه)", price:50 },
+    { id:"mn8", img:"mn.jpg", name:"مندي - نصف حبة (رز مثلوثه)", price:25 }
+  ]},
+
+  { section: "مضغوط", items: [
+    { id:"mp1", img:"mp.jpg", name:"مضغوط - حبة كاملة", price:50 },
+    { id:"mp2", img:"mp.jpg", name:"مضغوط - نصف حبة", price:25 }
+  ]},
+
+  { section: "زربيان", items: [
+    { id:"zr1", img:"zr.jpg", name:"زربيان - حبة كاملة", price:50 },
+    { id:"zr2", img:"zr.jpg", name:"زربيان - نصف حبة", price:25 }
+  ]},
+
+  { section: "مقلوبه", items: [
+    { id:"mq1", img:"mq.jpg", name:"مقلوبه - حبة كاملة", price:50 },
+    { id:"mq2", img:"mq.jpg", name:"مقلوبه - نصف حبة", price:25 }
+  ]},
+
+  { section: "قسم الحم", items: [
+    { id:"t1", img:"ham.jpg", name:"تيس كامل مندي - رز شعبي", price:1500 },
+    { id:"t2", img:"ham.jpg", name:"تيس كامل مندي - رز مندي", price:1600 },
+    { id:"t3", img:"ham.jpg", name:"تيس كامل مندي - رز بشاور", price:1600 },
+    { id:"t4", img:"ham.jpg", name:"نص تيس مندي - رز شعبي", price:750 },
+    { id:"t5", img:"ham.jpg", name:"نص تيس مندي - رز بشاور", price:775 },
+    { id:"t6", img:"ham.jpg", name:"نص تيس - رز مندي", price:775 },
+    { id:"t7", img:"ham.jpg", name:"ربع تيس مندي - (سعر مخصص)", price:0 },
+    { id:"t8", img:"ham.jpg", name:"نفر لحم تيس مندي - رز شعبي", price:85 },
+    { id:"t9", img:"ham.jpg", name:"لحم حاشي مكموت - رز شعبي", price:50 },
+    { id:"t10", img:"ham.jpg", name:"لحم برمه نعيمي مع المرق - رز شعبي", price:68 }
+  ]},
+
+  { section: "المشويات", items: [
+    { id:"k1", img:"grill.jpg", name:"كباب لحم - نفر", price:38 },
+    { id:"k2", img:"grill.jpg", name:"كباب لحم - نص كيلو", price:76 },
+    { id:"k3", img:"grill.jpg", name:"كباب لحم - كيلو", price:150 },
+    { id:"k4", img:"grill.jpg", name:"اوصل لحم - نفر", price:45 },
+    { id:"k5", img:"grill.jpg", name:"كباب دجاج - نفر", price:30 },
+    { id:"k6", img:"grill.jpg", name:"كباب دجاج - نص كيلو", price:60 },
+    { id:"k7", img:"grill.jpg", name:"كباب دجاج - كيلو", price:120 },
+    { id:"k8", img:"grill.jpg", name:"شيش طاوق - نفر", price:30 },
+    { id:"k9", img:"grill.jpg", name:"شيش طاوق - نص كيلو", price:60 },
+    { id:"k10", img:"grill.jpg", name:"شيش طاوق - كيلو", price:120 }
+  ]},
+
+  { section: "الإضافات", items: [
+    { id:"add1", img:"add.jpg", name:"نفر رز شعبي", price:10 },
+    { id:"add2", img:"add.jpg", name:"نفر رز مندي", price:10 },
+    { id:"add3", img:"add.jpg", name:"نفر رز بشاور", price:10 },
+    { id:"add4", img:"add.jpg", name:"سلطه حار", price:3 },
+    { id:"add5", img:"add.jpg", name:"طحينه", price:3 }
+  ]},
+
+  { section: "الايدامات", items: [
+    { id:"e1", img:"eid.jpg", name:"باميه", price:10 },
+    { id:"e2", img:"eid.jpg", name:"ملوخيه", price:10 },
+    { id:"e3", img:"eid.jpg", name:"مشكل خضار", price:10 },
+    { id:"e4", img:"eid.jpg", name:"مشكل فرن", price:10 },
+    { id:"e5", img:"eid.jpg", name:"مسقع", price:12 }
+  ]},
+
+  { section: "الجريش والقرصان", items: [
+    { id:"g1", img:"g.jpg", name:"جريش كبير", price:10 },
+    { id:"g2", img:"g.jpg", name:"جريش صغير", price:5 },
+    { id:"g3", img:"g.jpg", name:"قرصان كبير", price:10 },
+    { id:"g4", img:"g.jpg", name:"قرصان صغير", price:5 }
+  ]},
+
+  { section: "المقبلات", items: [
+    { id:"m1", img:"m.jpg", name:"سلطه خضرا وسط", price:10 },
+    { id:"m2", img:"m.jpg", name:"سلطه خضرا صغير", price:5 },
+    { id:"m3", img:"m.jpg", name:"خيار لبن وسط", price:10 },
+    { id:"m4", img:"m.jpg", name:"خيار لبن صغير", price:5 },
+    { id:"m5", img:"m.jpg", name:"تبوله وسط", price:13 },
+    { id:"m6", img:"m.jpg", name:"تبوله صغير", price:7 },
+    { id:"m7", img:"m.jpg", name:"متبل وسط", price:13 },
+    { id:"m8", img:"m.jpg", name:"متبل صغير", price:7 },
+    { id:"m9", img:"m.jpg", name:"حمص وسط", price:13 },
+    { id:"m10", img:"m.jpg", name:"حمص صغير", price:7 },
+    { id:"m11", img:"m.jpg", name:"سلطه روسيه وسط", price:13 },
+    { id:"m12", img:"m.jpg", name:"سلطه روسيه صغير", price:7 },
+    { id:"m13", img:"m.jpg", name:"سلطه امريكيه وسط", price:13 },
+    { id:"m14", img:"m.jpg", name:"سلطه امريكيه صغير", price:7 },
+    { id:"m15", img:"m.jpg", name:"مشكل مقبلات وسط", price:13 },
+    { id:"m16", img:"m.jpg", name:"مشكل مقبلات كبير", price:30 }
+  ]},
+
+  { section: "الكنافه", items: [
+    { id:"kna1", img:"kna.jpg", name:"كنافه قشطه", price:10 },
+    { id:"kna2", img:"kna.jpg", name:"كنافه جلاكسي", price:12 },
+    { id:"kna3", img:"kna.jpg", name:"كنافه نوتيلا", price:12 }
+  ]},
+
+  { section: "المشروبات", items: [
+    { id:"bev1", img:"bev.jpg", name:"ببسي صغير", price:3 },
+    { id:"bev2", img:"bev.jpg", name:"ببسي وسط", price:6 },
+    { id:"bev3", img:"bev.jpg", name:"ببسي كبير", price:9 },
+    { id:"bev4", img:"bev.jpg", name:"ببسي دايت صغير", price:3 },
+    { id:"bev5", img:"bev.jpg", name:"حمضيات صغير", price:3 },
+    { id:"bev6", img:"bev.jpg", name:"حمضيات وسط", price:6 },
+    { id:"bev7", img:"bev.jpg", name:"حمضيات كبير", price:9 },
+    { id:"bev8", img:"bev.jpg", name:"سفن اب صغير", price:3 },
+    { id:"bev9", img:"bev.jpg", name:"سفن اب وسط", price:6 },
+    { id:"bev10", img:"bev.jpg", name:"سفن اب كبير", price:9 },
+    { id:"bev11", img:"bev.jpg", name:"سفن اب دايت صغير", price:3 },
+    { id:"bev12", img:"bev.jpg", name:"لبن المراعي صغير", price:2 },
+    { id:"bev13", img:"bev.jpg", name:"لبن القريه صغير", price:3 },
+    { id:"bev14", img:"bev.jpg", name:"لبن المراعي وسط", price:6 },
+    { id:"bev15", img:"bev.jpg", name:"لبن المراعي كبير", price:12 }
+  ]}
+];
+
+/* ====== سلة الطلبات وواجهة المستخدم ====== */
+let cart = JSON.parse(localStorage.getItem('deerty_cart') || '[]');
+
+const sectionsEl = document.getElementById('sections');
+const menuList = document.getElementById('menuList');
+const cartBtn = document.getElementById('cartBtn');
+const cartCount = document.getElementById('cartCount');
+const cartDrawer = document.getElementById('cartDrawer');
+const cartOverlay = document.getElementById('cartOverlay');
+const closeCartBtn = document.getElementById('closeCartBtn');
+const cartItemsEl = document.getElementById('cartItems');
+const cartTotalBottom = document.getElementById('cartTotalBottom');
+const sendWhatsapp = document.getElementById('sendWhatsapp');
+const clearCart = document.getElementById('clearCart');
+const toast = document.getElementById('toast');
+
+/* Render sections */
+function renderSections(){
+  sectionsEl.innerHTML = '';
+  menuData.forEach((sec,idx) => {
+    const btn = document.createElement('button');
+    btn.className = 'sec-btn';
+    btn.innerText = sec.section;
+    btn.onclick = () => renderMenu(sec.section);
+    sectionsEl.appendChild(btn);
+    if(idx === 0) btn.click();
+  });
+}
+
+/* Render menu for a section */
+function renderMenu(sectionName){
+  menuList.innerHTML = '';
+  const sec = menuData.find(s=>s.section === sectionName);
+  if(!sec) return;
+  sec.items.forEach(item => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `
+      <div class="left">
+        <img src="${item.img}" alt="${item.name}" onerror="this.style.opacity=.35">
+        <div>
+          <h3>${item.name}</h3>
+          <p>${sectionName}</p>
+        </div>
+      </div>
+      <div class="right">
+        <div class="price">${item.price} ريال</div>
+        <button class="add-btn" onclick='addToCart(${JSON.stringify(item).replace(/'/g,"\\'")})'>أضف للسلة</button>
+      </div>
+    `;
+    menuList.appendChild(card);
+  });
+}
+
+/* Cart functions */
+function saveCart(){ localStorage.setItem('deerty_cart', JSON.stringify(cart)); renderCart(); }
+
+function addToCart(item){
+  // item may come as object or stringified; ensure object
+  const obj = (typeof item === 'string') ? JSON.parse(item) : item;
+  const found = cart.find(i => i.id === obj.id);
+  if(found) found.qty += obj.qty || 1; else cart.push({...obj, qty: obj.qty || 1});
+  saveCart();
+  showToast('تمت الإضافة للسلة');
+}
+
+function renderCart(){
+  cartItemsEl.innerHTML = '';
+  let total = 0, count = 0;
+  cart.forEach((it, idx) => {
+    const row = document.createElement('div');
+    row.className = 'cart-row';
+    row.innerHTML = `
+      <div>
+        <div style="font-weight:800">${it.name}</div>
+        <div style="font-size:0.9rem;color:rgba(0,0,0,0.6)">${it.qty} × ${it.price} ريال</div>
+      </div>
+      <div class="controls">
+        <button onclick="updateQty(${idx},-1)">-</button>
+        <div style="min-width:26px;text-align:center">${it.qty}</div>
+        <button onclick="updateQty(${idx},1)">+</button>
+        <button onclick="removeItem(${idx})" style="margin-left:6px;background:#ef4444;color:#fff;padding:6px;border-radius:6px;border:none;cursor:pointer">حذف</button>
+      </div>
+    `;
+    cartItemsEl.appendChild(row);
+    total += it.price * it.qty;
+    count += it.qty;
+  });
+
+  const deliveryType = document.querySelector('input[name="deliveryType"]:checked')?.value;
+  if(deliveryType === 'delivery') total += 5;
+
+  cartTotalBottom.innerText = total + ' ريال';
+  cartCount.innerText = count;
+  cartCount.style.display = count === 0 ? 'none' : 'inline-block';
+  saveCartToLocalOnly();
+}
+
+/* helper: write cart to localStorage without re-render loop */
+function saveCartToLocalOnly(){ localStorage.setItem('deerty_cart', JSON.stringify(cart)); }
+
+function updateQty(idx, change){
+  if(!cart[idx]) return;
+  cart[idx].qty += change;
+  if(cart[idx].qty < 1) cart.splice(idx,1);
+  saveCart();
+}
+
+function removeItem(idx){
+  cart.splice(idx,1);
+  saveCart();
+}
+
+sendWhatsapp.addEventListener('click', ()=>{
+  if(cart.length === 0){ showToast('السلة فارغة'); return; }
+  const deliveryType = document.querySelector('input[name="deliveryType"]:checked')?.value;
+  const lines = ['طلب جديد من مطاعم سحايب ديرتي:'];
+  cart.forEach(it => lines.push(`${it.qty} × ${it.name} — ${it.price * it.qty} ريال`));
+  if(deliveryType === 'delivery') lines.push('رسوم التوصيل: 5 ريال');
+  const total = cart.reduce((s,i)=>s + i.price * i.qty,0) + (deliveryType === 'delivery' ? 5 : 0);
+  lines.push(`الإجمالي: ${total} ريال`);
+  const url = `https://wa.me/966536803598?text=${encodeURIComponent(lines.join('\n'))}`;
+  window.open(url, '_blank');
+});
+
+clearCart.addEventListener('click', ()=>{
+  cart = [];
+  saveCart();
+  showToast('تم مسح السلة');
+});
+
+/* UI interactions */
+cartBtn.addEventListener('click', ()=>{ cartDrawer.classList.add('open'); cartOverlay.classList.add('show'); cartDrawer.setAttribute('aria-hidden','false'); renderCart(); });
+cartOverlay.addEventListener('click', ()=>{ cartDrawer.classList.remove('open'); cartOverlay.classList.remove('show'); cartDrawer.setAttribute('aria-hidden','true'); });
+closeCartBtn.addEventListener('click', ()=>{ cartDrawer.classList.remove('open'); cartOverlay.classList.remove('show'); cartDrawer.setAttribute('aria-hidden','true'); });
+
+function showToast(msg, time = 2000){
+  toast.innerText = msg;
+  toast.style.display = 'block';
+  setTimeout(()=> toast.style.display = 'none', time);
+}
+
+/* init */
+renderSections();
+renderCart();
+
+</script>
+</body>
+</html>
