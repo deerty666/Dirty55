@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>مطاعم ومطابخ سحايب ديرتي — القائمة</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gold: #d3a15e;
+  --brown: #2b1a10;
+}
+body {
+  font-family:'Cairo',sans-serif;
+  margin:0;
+  background:#f5f5f5;
+  color:var(--brown);
+}
+header {
+  background:linear-gradient(90deg,var(--gold),#e0b86a);
+  color:#fff;
+  padding:16px;
+  text-align:center;
+  font-size:1.4rem;
+  font-weight:700;
+  position: relative;
+}
+header img {
+  height:50px;
+  vertical-align:middle;
+}
+#sections {
+  display:flex;
+  gap:8px;
+  overflow-x:auto;
+  padding:12px;
+  background:#fff;
+  border-bottom:1px solid rgba(0,0,0,0.05);
+}
+.sec-btn {
+  background:var(--gold);
+  color:var(--brown);
+  padding:8px 14px;
+  border-radius:999px;
+  font-weight:700;
+  border:none;
+  cursor:pointer;
+  white-space:nowrap;
+}
+#menuList {
+  padding:14px;
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+  gap:14px;
+}
+.card {
+  background:rgba(255,255,255,0.95);
+  backdrop-filter:blur(4px);
+  border-radius:12px;
+  box-shadow:0 6px 18px rgba(0,0,0,0.06);
+  padding:12px;
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  transition:transform .15s;
+}
+.card:hover { transform:translateY(-4px); }
+.card img { width:100%; height:160px; border-radius:10px; object-fit:cover; }
+.card h3 { margin:0; font-size:1rem; color:var(--brown); font-weight:700; text-align:center; }
+.card .price { font-size:1.2rem; font-weight:800; color:var(--brown); text-align:center; }
+.add-btn { background:var(--gold); color:var(--brown); border:none; padding:8px 12px; border-radius:8px; font-weight:800; cursor:pointer; width:100%; }
+/* Cart drawer */
+#cartDrawer {
+  position:fixed;
+  right:0; top:0;
+  height:100%;
+  width:360px;
+  background:#fff;
+  box-shadow:-8px 0 24px rgba(0,0,0,0.15);
+  transform:translateX(110%);
+  transition:transform .25s;
+  z-index:80;
+  display:flex;
+  flex-direction:column;
+}
+#cartDrawer.open { transform:translateX(0); }
+#cartOverlay {
+  position:fixed; inset:0;
+  background:rgba(0,0,0,0.45);
+  display:none;
+  z-index:70;
+}
+#cartOverlay.show { display:block; }
+.cart-header {
+  padding:14px;
+  border-bottom:1px solid rgba(0,0,0,0.06);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-weight:800;
+}
+#cartItems { padding:12px; overflow:auto; flex:1; }
+.cart-footer { padding:12px; border-top:1px solid rgba(0,0,0,0.06); display:flex; flex-direction:column; gap:8px; }
+.primary-btn { background:var(--gold); color:var(--brown); border:none; padding:10px; border-radius:8px; font-weight:800; cursor:pointer; flex:1; }
+.danger-btn { background:#ef4444; color:#fff; border:none; padding:8px; border-radius:8px; cursor:pointer; }
+/* footer cart */
+#cartBtn {
+  position:fixed; bottom:18px; right:18px;
+  background:var(--gold); color:var(--brown);
+  padding:14px; border-radius:999px; border:none;
+  font-weight:800; z-index:90;
+  box-shadow:0 6px 18px rgba(0,0,0,0.12); cursor:pointer;
+}
+#cartCount {
+  background:#ef4444; color:#fff;
+  padding:2px 8px; border-radius:999px;
+  margin-left:8px; font-weight:800;
+  display:inline-block;
+}
+/* responsive */
+@media (max-width:640px){
+  #cartDrawer{width:100%;}
+  .card img{height:140px;}
+}
+</style>
+</head>
+<body>
+
+<header><img src="logo-bg.png" alt="شعار المطعم"></header>
+
+<div id="sections" aria-hidden="false"></div>
+
+<main id="menuList" role="list"></main>
+
+<!-- Cart drawer -->
+<div id="cartOverlay"></div>
+<div id="cartDrawer" aria-hidden="true">
+  <div class="cart-header">
+    <div>سلة الطلبات</div>
+    <button id="closeCartBtn" title="إغلاق">✖</button>
+  </div>
+  <div style="padding:12px;border-bottom:1px solid rgba(0,0,0,0.04); display:flex; gap:12px; justify-content:center;">
+    <label><input type="radio" name="deliveryType" value="pickup" checked> استلام (بدون رسوم)</label>
+    <label><input type="radio" name="deliveryType" value="delivery"> توصيل — 5 ريال</label>
+  </div>
+  <div id="cartItems"></div>
+  <div class="cart-footer">
+    <div style="display:flex;justify-content:space-between;align-items:center;font-weight:800;">
+      <div>الإجمالي</div><div id="cartTotalBottom">0 ريال</div>
+    </div>
+    <div style="display:flex;gap:8px;">
+      <button id="sendWhatsapp" class="primary-btn">إرسال عبر واتساب</button>
+      <button id="clearCart" class="danger-btn" style="width:120px;">مسح السلة</button>
+    </div>
+  </div>
+</div>
+
+<button id="cartBtn" aria-label="عرض السلة">🛒 <span id="cartCount" style="display:none"></span></button>
+
+<!-- Toast -->
+<div id="toast" style="position:fixed;bottom:90px;right:20px;background:#111;color:#fff;padding:10px;border-radius:8px;display:none;z-index:100;"></div>
+<script>
+const menuData = [
+  { section: "الشوايه", items: [
+    { id:"sh1", img:"sh.jpg", name:"حبة شواية", basePrice:46, options:[
+      {name:"رز شعبي", price:0},
+      {name:"رز بشاور", price:4},
+      {name:"رز مندي", price:4},
+      {name:"رز مثلوثه", price:4}
+    ]},
+    { id:"sh2", img:"sh.jpg", name:"نص حبة شواية", basePrice:24, options:[
+      {name:"رز شعبي", price:0},
+      {name:"رز بشاور", price:1},
+      {name:"رز مندي", price:1},
+      {name:"رز مثلوثه", price:1}
+    ]}
+  ]},
+  { section: "المظبي", items: [
+    { id:"md1", img:"md.jpg", name:"حبة مظبي", basePrice:46, options:[
+      {name:"رز شعبي", price:0},
+      {name:"رز بشاور", price:4},
+      {name:"رز مندي", price:4},
+      {name:"رز مثلوثه", price:4}
+    ]},
+    { id:"md2", img:"md.jpg", name:"نص حبة مظبي", basePrice:24, options:[
+      {name:"رز شعبي", price:0},
+      {name:"رز بشاور", price:1},
+      {name:"رز مندي", price:1},
+      {name:"رز مثلوثه", price:1}
+    ]}
+  ]},
+  { section: "المندي", items: [
+    { id:"mn1", img:"mn.jpg", name:"حبة مندي", basePrice:46, options:[
+      {name:"رز شعبي", price:0},
+      {name:"رز بشاور", price:4},
+      {name:"رز مندي", price:4},
+      {name:"رز مثلوثه", price:4}
+    ]},
+    { id:"mn2", img:"mn.jpg", name:"نص حبة مندي", basePrice:24, options:[
+      {name:"رز شعبي", price:0},
+      {name:"رز بشاور", price:1},
+      {name:"رز مندي", price:1},
+      {name:"رز مثلوثه", price:1}
+    ]}
+  ]},
+  { section: "المدفون", items: [
+    { id:"mdf1", img:"mdf.jpg", name:"حبة مدفون", basePrice:46, options:[
+      {name:"رز شعبي", price:0},
+      {name:"رز بشاور", price:4},
+      {name:"رز مندي", price:4},
+      {name:"رز مثلوثه", price:4}
+    ]},
+    { id:"mdf2", img:"mdf.jpg", name:"نص حبة مدفون", basePrice:24, options:[
+      {name:"رز شعبي", price:0},
+      {name:"رز بشاور", price:1},
+      {name:"رز مندي", price:1},
+      {name:"رز مثلوثه", price:1}
+    ]}
+  ]},
+  { section: "المقبلات", items:[
+    {id:"m1", img:"m.jpg", name:"سلطه خضار صغير", basePrice:7, options:[{name:"", price:0}]},
+    {id:"m2", img:"m.jpg", name:"سلطه خضار وسط", basePrice:13, options:[{name:"", price:0}]},
+    {id:"m3", img:"m.jpg", name:"خيار لبن صغير", basePrice:7, options:[{name:"", price:0}]},
+    {id:"m4", img:"m.jpg", name:"خيار لبن وسط", basePrice:10, options:[{name:"", price:0}]}
+  ]}
+];
+
+/* CART */
+let cart = JSON.parse(localStorage.getItem('deerty_cart')||'[]');
+
+const sectionsEl = document.getElementById('sections');
+const menuList = document.getElementById('menuList');
+const cartBtn = document.getElementById('cartBtn');
+const cartCount = document.getElementById('cartCount');
+const cartDrawer = document.getElementById('cartDrawer');
+const cartOverlay = document.getElementById('cartOverlay');
+const closeCartBtn = document.getElementById('closeCartBtn');
+const cartItemsEl = document.getElementById('cartItems');
+const cartTotalBottom = document.getElementById('cartTotalBottom');
+const sendWhatsapp = document.getElementById('sendWhatsapp');
+const clearCart = document.getElementById('clearCart');
+const toast = document.getElementById('toast');
+
+/* Render Sections */
+function renderSections(){
+  sectionsEl.innerHTML='';
+  menuData.forEach((sec,idx)=>{
+    const btn=document.createElement('button');
+    btn.className='sec-btn';
+    btn.innerText=sec.section;
+    btn.onclick=()=>renderMenu(sec.section);
+    sectionsEl.appendChild(btn);
+    if(idx===0) btn.click();
+  });
+}
+
+/* Render Menu */
+function renderMenu(sectionName){
+  menuList.innerHTML='';
+  const sec=menuData.find(s=>s.section===sectionName);
+  if(!sec) return;
+  sec.items.forEach(item=>{
+    const card=document.createElement('div');
+    card.className='card';
+    card.innerHTML=`
+      <img src="${item.img}" alt="${item.name}" onerror="this.style.opacity=.35">
+      <h3>${item.name}</h3>
+      <div class="price">${item.basePrice} ريال</div>
+      <button class="add-btn" onclick='openOptionModal(${JSON.stringify(item).replace(/'/g,"\\'")})'>أضف للسلة</button>
+    `;
+    menuList.appendChild(card);
+  });
+}
+
+/* Option Modal */
+function openOptionModal(item){
+  const optionDiv=document.createElement('div');
+  optionDiv.style.position='fixed';
+  optionDiv.style.inset='0';
+  optionDiv.style.background='rgba(0,0,0,0.45)';
+  optionDiv.style.display='flex';
+  optionDiv.style.justifyContent='center';
+  optionDiv.style.alignItems='center';
+  optionDiv.style.zIndex='200';
+  
+  const box=document.createElement('div');
+  box.style.background='#fff';
+  box.style.borderRadius='12px';
+  box.style.padding='16px';
+  box.style.width='90%';
+  box.style.maxWidth='400px';
+  box.innerHTML=`<h3 style="text-align:center;margin-bottom:12px">${item.name}</h3>`;
+  
+  item.options.forEach((opt,idx)=>{
+    const optBtn=document.createElement('button');
+    optBtn.innerText=opt.name + (opt.price>0? ` +${opt.price} ريال`:'');
+    optBtn.style.margin='4px';
+    optBtn.style.padding='10px';
+    optBtn.style.width='100%';
+    optBtn.style.cursor='pointer';
+    optBtn.onclick=()=>{
+      addToCart({...item, name:item.name+' - '+opt.name, price:item.basePrice+opt.price, qty:1});
+      document.body.removeChild(optionDiv);
+    };
+    box.appendChild(optBtn);
+  });
+  
+  optionDiv.appendChild(box);
+  document.body.appendChild(optionDiv);
+}
+
+/* Cart Functions */
+function addToCart(item){
+  const found=cart.find(i=>i.name===item.name);
+  if(found) found.qty+=item.qty||1; else cart.push(item);
+  saveCart();
+  showToast('تمت الإضافة للسلة');
+}
+
+function saveCart(){ localStorage.setItem('deerty_cart',JSON.stringify(cart)); renderCart(); }
+
+function renderCart(){
+  cartItemsEl.innerHTML='';
+  let total=0,count=0;
+  cart.forEach((it,idx)=>{
+    const row=document.createElement('div');
+    row.className='cart-row';
+    row.innerHTML=`
+      <div>
+        <div style="font-weight:800">${it.name}</div>
+        <div style="font-size:0.9rem;color:rgba(0,0,0,0.6)">${it.qty} × ${it.price} ريال</div>
+      </div>
+      <div class="controls">
+        <button onclick="updateQty(${idx},-1)">-</button>
+        <div style="min-width:26px;text-align:center">${it.qty}</div>
+        <button onclick="updateQty(${idx},1)">+</button>
+        <button onclick="removeItem(${idx})" style="margin-left:6px;background:#ef4444;color:#fff;padding:6px;border-radius:6px;border:none;cursor:pointer">حذف</button>
+      </div>
+    `;
+    cartItemsEl.appendChild(row);
+    total+=it.price*it.qty;
+    count+=it.qty;
+  });
+  
+  const deliveryType=document.querySelector('input[name="deliveryType"]:checked')?.value;
+  if(deliveryType==='delivery') total+=5;
+  
+  cartTotalBottom.innerText=total+' ريال';
+  cartCount.innerText=count;
+  cartCount.style.display=count===0?'none':'inline-block';
+  saveCartToLocalOnly();
+}
+
+function saveCartToLocalOnly(){ localStorage.setItem('deerty_cart', JSON.stringify(cart)); }
+
+function updateQty(idx,change){ if(!cart[idx]) return; cart[idx].qty+=change; if(cart[idx].qty<1) cart.splice(idx,1); saveCart(); }
+
+function removeItem(idx){ cart.splice(idx,1); saveCart(); }
+
+sendWhatsapp.addEventListener('click',()=>{
+  if(cart.length===0){ showToast('السلة فارغة'); return; }
+  const deliveryType=document.querySelector('input[name="deliveryType"]:checked')?.value;
+  const lines=['طلب جديد من مطاعم سحايب ديرتي:'];
+  cart.forEach(it=>lines.push(`${it.qty} × ${it.name} — ${it.price*it.qty} ريال`));
+  if(deliveryType==='delivery') lines.push('رسوم التوصيل: 5 ريال');
+  const total=cart.reduce((s,i)=>s+i.price*i.qty,0)+(deliveryType==='delivery'?5:0);
+  lines.push(`الإجمالي: ${total} ريال`);
+  const url=`https://wa.me/966536803598?text=${encodeURIComponent(lines.join('\n'))}`;
+  window.open(url,'_blank');
+});
+
+clearCart.addEventListener('click',()=>{ cart=[]; saveCart(); showToast('تم مسح السلة'); });
+
+cartBtn.addEventListener('click',()=>{ cartDrawer.classList.add('open'); cartOverlay.classList.add('show'); cartDrawer.setAttribute('aria-hidden','false'); renderCart(); });
+cartOverlay.addEventListener('click',()=>{ cartDrawer.classList.remove('open'); cartOverlay.classList.remove('show'); cartDrawer.setAttribute('aria-hidden','true'); });
+closeCartBtn.addEventListener('click',()=>{ cartDrawer.classList.remove('open'); cartOverlay.classList.remove('show'); cartDrawer.setAttribute('aria-hidden','true'); });
+
+function showToast(msg,time=2000){ toast.innerText=msg; toast.style.display='block'; setTimeout(()=>toast.style.display='none',time); }
+
+renderSections();
+renderCart();
+</script>
