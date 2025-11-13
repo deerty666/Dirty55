@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>قائمة سحايب ديرتي</title>
+    <link rel="stylesheet" href="/Dirty55/style.css">
+    
+    <link rel="manifest" href="/Dirty55/manifest.json">
+    
+    </head>
+<body>
+    <div id="pwaBanner">
+        <p>لتجربة أفضل، قم بتثبيت التطبيق على جهازك.</p>
+        <button id="installAppBtn" style="display:none;">تثبيت</button>
+    </div>
+
+    <header>
+        <div class="search-container">
+            <input type="text" id="searchBar" placeholder="ابحث عن وجبة...">
+        </div>
+    </header>
+
+    <div class="sections-container">
+        <div id="sections">
+            </div>
+    </div>
+
+    <main id="menuList">
+        </main>
+    
+    <div id="cartBtn" class="cart-btn">
+        سلة الطلبات <span id="cartCount">0</span>
+    </div>
+
+    <div id="cartOverlay" class="cart-overlay" aria-hidden="true"></div>
+    <div id="cartDrawer" class="cart-drawer" aria-hidden="true">
+        <div class="drawer-header">
+            <h3>سلة الطلبات</h3>
+            <button id="closeCartBtn">✖️</button>
+        </div>
+        <div class="drawer-content">
+            <div id="cartItems">
+                </div>
+        </div>
+        
+        <div class="drawer-footer">
+            <div class="delivery-options">
+                <input type="radio" id="delivery" name="deliveryType" value="delivery" checked>
+                <label for="delivery">توصيل</label>
+                
+                <input type="radio" id="pickup" name="deliveryType" value="pickup">
+                <label for="pickup">استلام من الفرع</label>
+            </div>
+            
+            <div id="totalBreakdown" class="total-breakdown">
+                </div>
+
+            <button id="sendWhatsapp">إرسال الطلب عبر الواتساب</button>
+            <button id="clearCart" class="clear-cart-btn">مسح السلة</button>
+        </div>
+    </div>
+    
+    <div id="optionModal" class="modal">
+        <div class="modal-content">
+            <h4 id="modalTitle">اسم الوجبة</h4>
+            <div id="modalOptions" class="modal-options">
+                </div>
+            <textarea id="itemNote" placeholder="أضف ملاحظاتك على الوجبة (مثلاً: بدون شطة، لحم قليل الدسم...)"></textarea>
+            <button id="modalConfirm">إضافة إلى السلة</button>
+        </div>
+    </div>
+
+    <script src="/Dirty55/app.js"></script>
+    <script src="/Dirty55/service-worker.js"></script>
+</body>
+</html>
