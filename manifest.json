@@ -1,0 +1,28 @@
+{
+    "name": "سحايب ديرتي",
+    "short_name": "ديرتي",
+    "description": "قائمة طعام سحايب ديرتي الرقمية",
+    "start_url": "/Dirty55/branches.html",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#a07c4c",
+    "orientation": "portrait-primary",
+    "icons": [
+        {
+            "src": "/Dirty55/icons/icon-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/Dirty55/icons/icon-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        },
+        {
+            "src": "/Dirty55/icons/maskable_icon.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "maskable"
+        }
+    ]
+}
