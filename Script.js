@@ -1,170 +1,0 @@
-/* ====== بيانات الفروع - يرجى تعديل أرقام الواتساب والأسماء حسب الرغبة ====== */
-const BRANCH_CONFIG = {
-    'branch1': { 
-        whatsapp: '966536803598', // ⭐️ رقم واتساب فرع لبن الاحمدية
-        name: 'لبن الاحمدية', // اسم الفرع في الرسائل وعنوان الصفحة
-        deliveryFee: 5,
-    },
-    'branch2': {
-        whatsapp: '9665XXXXXXXX2', // ⚠️ يرجى تغيير رقم الواتساب لفرع شمال الرياض
-        name: 'شمال الرياض مخرج ٦', 
-        deliveryFee: 5, 
-    },
-    'branch3': {
-        whatsapp: '9665XXXXXXXX3', // ⚠️ يرجى تغيير رقم الواتساب لفرع الروضه
-        name: 'الروضه خالد بن الوليد ', 
-        deliveryFee: 5,
-    }
-};
-
-/* ====== متغير لتحديد الفرع الحالي من الرابط ====== */
-let currentBranchId = 'branch1'; // القيمة الافتراضية
-const urlParams = new URLSearchParams(window.location.search);
-if (urlParams.has('branch')) {
-    currentBranchId = urlParams.get('branch');
-} else if (window.location.pathname.endsWith('menu.html')) {
-    // 💡 إذا دخل المستخدم مباشرة إلى menu.html دون تحديد فرع، أعده إلى صفحة الاختيار
-    window.location.href = 'index.html'; 
-}
-
-const currentBranch = BRANCH_CONFIG[currentBranchId] || BRANCH_CONFIG['branch1'];
-document.title = `قائمة سحايب ديرتي - فرع ${currentBranch.name}`; // تحديث عنوان الصفحة باسم الفرع
-
-/* ====== بيانات المنيو - تم تحديثها لتعمل مع ملفات الصور ذات البادئة ap الموجودة على GitHub ====== */
-const menuData = [
-  // 1. القسم الجديد: الكل
-  { 
-    section:"الكل", 
-    sectionImg: "/Dirty55/logo-bg.webp", // صورة عامة
-    items:[] 
-  },
-  { 
-    section:"الشوايه", 
-    sectionImg: "/Dirty55/ap00.webp", // ⭐️ تم تغيير بادئة الصورة إلى ap
-    items:[
-      // الوجبة 1
-      {id:"sh1", img:"/Dirty55/ap01.webp", name:"شواية", basePrice:46, availableIn: ['branch1', 'branch3'], options:[ // ⭐️ الوجبة الأولى
-      {name:"رز شعبي", price:0},
-      {name:"رز بشاور", price:4},
-      {name:"رز مندي", price:4},
-      {name:"رز مثلوثه", price:4}
-    ]},
-    // الوجبة 2
-    {id:"sh2", img:"/Dirty55/ap02.webp", name:"نص شواية", basePrice:24, availableIn: ['branch1', 'branch2', 'branch3'], options:[ // ⭐️ الوجبة الثانية
-      {name:"رز شعبي", price:0},
-      {name:"رز بشاور", price:1},
-      {name:"رز مندي", price:1},
-      {name:"رز مثلوثه", price:1}
-    ]}
-  ]},
-  { 
-    section:"المظبي", 
-    sectionImg: "/Dirty55/ap00.webp", // ⭐️ تم تغيير بادئة الصورة إلى ap
-    items:[
-      // الوجبة 1
-      {id:"md1", img:"/Dirty55/ap03.webp", name:"مظبي", basePrice:46, availableIn: ['branch1', 'branch2', 'branch3'], options:[ // ⭐️ الوجبة الثالثة
-      {name:"رز شعبي", price:0},
-      {name:"رز بشاور", price:4},
-      {name:"رز مندي", price:4},
-      {name:"رز مثلوثه", price:4}
-    ]},
-    // الوجبة 2
-    {id:"md2", img:"/Dirty55/ap04.webp", name:"نص مظبي", basePrice:24, availableIn: ['branch1', 'branch2', 'branch3'], options:[ // ⭐️ الوجبة الرابعة
-      {name:"رز شعبي", price:0},
-      {name:"رز بشاور", price:1},
-      {name:"رز مندي", price:1},
-      {name:"رز مثلوثه", price:1}
-    ]}
-  ]},
-  { 
-    section:"مندي", 
-    sectionImg: "/Dirty55/ap00.webp", // ⭐️ تم تغيير بادئة الصورة إلى ap
-    items:[
-      // الوجبة 1
-      {id:"mn1", img:"/Dirty55/ap05.webp", name:"مندي", basePrice:46, availableIn: ['branch2', 'branch3'], options:[ // ⭐️ الوجبة الخامسة
-      {name:"رز شعبي", price:0},
-      {name:"رز بشاور", price:4},
-      {name:"رز مندي", price:4},
-      {name:"رز مثلوثه", price:4}
-    ]},
-    // الوجبة 2
-    {id:"mn2", img:"/Dirty55/ap06.webp", name:"نص مندي", basePrice:24, availableIn: ['branch1', 'branch2', 'branch3'], options:[ // ⭐️ الوجبة السادسة
-      {name:"رز شعبي", price:0},
-      {name:"رز بشاور", price:1},
-      {name:"رز مندي", price:1},
-      {name:"رز مثلوثه", price:1}
-    ]}
-  ]},
-  { 
-    section:"مدفون", 
-    sectionImg: "/Dirty55/ap00.webp", // ⭐️ تم تغيير بادئة الصورة إلى ap
-    items:[
-      // الوجبة 1
-      {id:"mdf1", img:"/Dirty55/ap07.webp", name:"مدفون حبه كامل", basePrice:46, availableIn: ['branch1', 'branch2', 'branch3'], options:[ // ⭐️ الوجبة السابعة
-      {name:"رز شعبي", price:0},
-      {name:"رز بشاور", price:4},
-      {name:"رز مندي", price:4},
-      {name:"رز مثلوثه", price:4}
-    ]},
-    // الوجبة 2
-    {id:"mdf2", img:"/Dirty55/ap08.webp", name:"نص مدفون", basePrice:24, availableIn: ['branch1', 'branch2', 'branch3'], options:[ // ⭐️ الوجبة الثامنة
-      {name:"رز شعبي", price:0},
-      {name:"رز بشاور", price:1},
-      {name:"رز مندي", price:1},
-      {name:"رز مثلوثه", price:1}
-    ]}
-  ]},
-  { 
-    section:"مقلوبه", 
-    sectionImg: "/Dirty55/ap00.webp", // ⭐️ تم تغيير بادئة الصورة إلى ap
-    items:[
-      // الوجبة 1
-      {id:"mq1", img:"/Dirty55/ap09.webp", name:"دجاج مقلوبه حبه", basePrice:50, availableIn: ['branch1', 'branch2', 'branch3'], options:[{name:"رز شعبي", price:0}]}, // ⭐️ الوجبة التاسعة
-      // الوجبة 2
-      {id:"mq2", img:"/Dirty55/ap10.webp", name:"نص دجاج مقلوبه", basePrice:25, availableIn: ['branch1', 'branch2', 'branch3'], options:[{name:"رز شعبي", price:0}]} // ⭐️ الوجبة العاشرة
-  ]},
-  { 
-    section:"مضغوط", 
-    sectionImg: "/Dirty55/ap00.webp", // ⭐️ تم تغيير بادئة الصورة إلى ap
-    items:[
-      // الوجبة 1
-      {
-          id:"mg1", 
-          img:"/Dirty55/ap11.webp", // ⭐️ الوجبة الحادية عشرة
-          name:"دجاج مضغوط حبه", 
-          basePrice:50, 
-          isBestSeller: true, 
-          branchDiscounts: {'branch1': 40}, // الخصم 40 ريال لفرع الرياض فقط
-          availableIn: ['branch1', 'branch2', 'branch3'], 
-          options:[{name:"رز مضغوط", price:0}]
-      }, 
-      // الوجبة 2
-      {id:"mg2", img:"/Dirty55/ap12.webp", name:"نص حبه مضغوط", basePrice:25, availableIn: ['branch1', 'branch2', 'branch3'], options:[{name:"رز مضغوط", price:0}]} // ⭐️ الوجبة الثانية عشرة
-  ]},
-  { 
-    section:"زربيان", 
-    sectionImg: "/Dirty55/ap00.webp", // ⭐️ تم تغيير بادئة الصورة إلى ap
-    items:[
-      // الوجبة 1
-      {id:"zb1", img:"/Dirty55/ap13.webp", name:"دجاج زربيان حبه", basePrice:50, availableIn: ['branch1', 'branch2', 'branch3'], options:[{name:"رز زربيان", price:0}]}, // ⭐️ الوجبة الثالثة عشرة
-      // الوجبة 2
-      {id:"zb2", img:"/Dirty55/ap14.webp", name:"نص حبه زربيان", basePrice:25, availableIn: ['branch1', 'branch2', 'branch3'], options:[{name:"رز زربيان", price:0}]} // ⭐️ الوجبة الرابعة عشرة
-  ]},
-  { 
-    section:"قسم اللحوم", 
-    sectionImg: "/Dirty55/ap00.webp", // ⭐️ تم تغيير بادئة الصورة إلى ap
-    items:[
-    // الوجبة 1
-    {id:"t1", img:"/Dirty55/ap15.webp", name:"تيس مندي كامل", basePrice:1550, isAvailable: false, availableIn: ['branch1', 'branch2', 'branch3'], options:[ // ⭐️ الوجبة الخامسة عشرة
-      {name:"رز شعبي", price:0},
-      {name:"رز بشاور", price:50},
-      {name:"رز مندي", price:50}
-    ]},
-    // الوجبة 2
-    {id:"t2", img:"/Dirty55/ap16.webp", name:"نص تيس مندي", basePrice:800, isAvailable: false, availableIn: ['branch1', 'branch2', 'branch3'], options:[ // ⭐️ الوجبة السادسة عشرة (وأُكمل تعريفها)
-      {name:"رز شعبي", price:0},
-      {name:"رز بشاور", price:25},
-      {name:"رز مندي", price:25}
-    ]}
-  ]}
-];
