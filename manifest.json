@@ -1,34 +1,0 @@
-{
-  "name": "قائمة سحايب ديرتي",
-  "short_name": "المنيو",
-  "description": "قائمة طلبات مطاعم سحايب ديرتي",
-  
-  // 🔑 التعديل الحاسم 1: تحديد مسار بداية التطبيق (start_url)
-  // يجب أن يبدأ بـ /Dirty55/ حتى يعمل التطبيق على GitHub Pages
-  "start_url": "/Dirty55/index.html",
-  
-  // 🔑 التعديل الحاسم 2: تحديد نطاق عمل التطبيق (scope)
-  // يجب أن يشمل مسار المستودع
-  "scope": "/Dirty55/",
-  
-  "display": "standalone",
-  "orientation": "portrait",
-  "background_color": "#ffffff",
-  "theme_color": "#a07c4c",
-  
-  "icons": [
-    // ⚠️ ملاحظة: تأكد أن مجلد "icons" موجود في مسار /Dirty55/
-    {
-      "src": "/Dirty55/icons/icon-192x192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "/Dirty55/icons/icon-512x512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "maskable"
-    }
-  ]
-}
