@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>قائمة مطاعم ومطابخ سحايب ديرتي</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+
+<link rel="manifest" href="/Dirty55/manifest.json">
+<meta name="theme-color" content="#1A1512"> 
+
+<link rel="stylesheet" href="style.css"> 
+
+<style>
+/* ====== تنسيق النافذة المنبثقة للإشعارات (مؤقتة هنا) ====== */
+
+#notificationPrompt {
+    /* إخفاء افتراضياً، وسيتم إظهارها عبر JavaScript */
+    display: none; 
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.notification-content {
+    background: var(--card-bg-dark);
+    color: var(--light-text);
+    padding: 30px;
+    border-radius: 12px;
+    max-width: 350px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+    animation: fadeIn 0.3s ease-out;
+    border: 1px solid var(--gold);
+}
+
+.notification-content h3 {
+    color: var(--gold);
+    margin-top: 0;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.notification-content p {
+    margin-bottom: 25px;
+    line-height: 1.5;
+}
+
+.notification-content button {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 700;
+    cursor: pointer;
+    margin: 5px;
+    transition: background 0.2s;
+    width: 100%; /* جعل الأزرار بعرض كامل للموبايل */
+}
+
+#allowNotifications {
+    background-color: var(--gold);
+    color: var(--old-brown);
+}
+
+#allowNotifications:hover {
+    background-color: #a07c4c;
+}
+
+#denyNotifications {
+    background-color: #333;
+    color: var(--light-text);
+}
+
+#denyNotifications:hover {
+    background-color: #555;
+}
+
+/* لكي لا تتضارب الأزرار في الهواتف الصغيرة */
+@media (min-width: 480px) {
+    .notification-content button {
+        width: 45%; 
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+/* ====== تنسيق الـ Header المعدل للتوسيط (مؤقتة هنا) ====== */
+header {
+    display: flex;
+    justify-content: space-between; /* توزيع المساحة بين العناصر */
+    align-items: center;
+    padding: 10px 15px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: var(--header-bg); /* تأكد من تعريف هذا المتغير في style.css */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* لضمان توسيط الشعار رغم وجود الأزرار على الجانبين */
+header > div:nth-child(2) {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.control-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    transition: color 0.2s;
+}
+
+.control-btn svg {
+    width: 24px;
+    height: 24px;
+    fill: var(--gold);
+}
+
+/* تنسيق زر تثبيت التطبيق */
+#installAppBtn {
+    background-color: var(--gold);
+    color: var(--old-brown);
+    padding: 8px 12px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    min-width: 100px;
+    transition: background 0.2s;
+}
+</style>
+
+</head>
+<body>
+
+<header>
+  <div>
+    <button id="reloadBtn" class="control-btn" title="تحديث القائمة">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M13.5 2c-5.286 0-9.617 4.15-9.987 9.423-.082 1.15-.013 2.308.204 3.444l-2.73 2.73 1.414 1.414 2.73-2.73c1.136.217 2.294.286 3.444.204C18.85 18.006 23 13.675 23 8.5 23 4.91 20.09 2 16.5 2h-3zM12 4h4.5c2.485 0 4.5 2.015 4.5 4.5s-2.015 4.5-4.5 4.5H12V4zm-1 12H7.5C5.015 16 3 13.985 3 11.5S5.015 7 7.5 7h4.5v9z"/>
+        </svg>
+    </button>
+  </div>
+  
+  <div><img src="/Dirty55/logo-bg.png" alt="شعار المطعم" onerror="this.style.opacity=0.25; this.style.height='50px'"></div>
+
+  <button id="installAppBtn" style="display:none;">تثبيت التطبيق 📲</button>
+</header>
+
+<input type="search" id="searchBar" placeholder="ابحث عن وجبة سريعة أو صنف..." aria-label="البحث في القائمة">
+
+<div id="sections" aria-hidden="false"></div>
+
+<div class="menu-container">
+    <div id="menuList" role="list"></div>
+    <div id="loadingOverlay" class="loading-overlay" style="display: none;">
+        <div class="spinner"></div>
+    </div>
+</div>
+
+<div id="cartOverlay"></div>
+<div id="cartDrawer" aria-hidden="true">
+  <div class="cart-header">
+    <div>سلة الطلبات</div>
+    <button id="closeCartBtn" title="إغلاق">✖</button>
+  </div>
+  <div id="cartItems"></div>
+  
+  <div class="delivery-options-container">
+    <label class="delivery-option">
+      <input type="radio" name="deliveryType" value="pickup" checked>
+      <span>استلام</span>
+    </label>
+    <label class="delivery-option">
+      <input type="radio" name="deliveryType" value="delivery">
+      <span>
+        توصيل
+        <span class="cost">5 ريال</span> 
+      </span>
+    </label>
+  </div>
+  <div class="cart-footer">
+    <div id="totalBreakdown">
+      </div>
+    <div style="display:flex;gap:8px;">
+      <button id="sendWhatsapp" class="primary-btn" style="flex:1;">إرسال عبر واتساب</button>
+      <button id="clearCart" class="danger-btn" style="width:120px;">مسح السلة</button>
+    </div>
+  </div>
+</div>
+
+<button id="cartBtn" aria-label="عرض السلة">🛒 <span id="cartCount" style="display:none"></span></button>
+
+<div id="optionModal">
+  <div class="modal-content">
+    <h3 id="modalTitle"></h3>
+    <div id="modalOptions"></div>
+    
+    <textarea id="itemNote" placeholder="ملاحظات خاصة على هذا الصنف (مثل: بدون ملح، فلفل خفيف)..." rows="3"></textarea>
+    
+    <button id="modalConfirm" class="primary-btn">تأكيد</button>
+  </div>
+</div>
+
+<div id="notificationPrompt">
+    <div class="notification-content">
+        <h3>هل تريد أن يصلك جديد عروضنا؟ 📢</h3>
+        <p>قم بتفعيل الإشعارات لتكون أول من يعلم عند إضافة أطباق جديدة أو خصومات مميزة!</p>
+        <button id="allowNotifications">نعم، أريد ذلك</button>
+        <button id="denyNotifications">لا شكراً</button>
+    </div>
+</div>
+<script src="Script.js?v=3.0" defer></script>
+
+</body>
+</html>
