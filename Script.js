@@ -225,8 +225,8 @@ const menuData = [
                 availableIn: ['branch1', 'branch2', 'branch3'],
                 options: [
                     { name: "رز شعبي", price: 0 },
-                    { name: "رز بشاور", price: 63 }, 
-                    { name: "رز مندي", price: 63 }
+                    { name: "رز بشاور", price: 3 }, 
+                    { name: "رز مندي", price: 3 }
                 ]
             },
             // الوجبة 6 (برمه لحم - خصم وأكثر مبيعاً)
