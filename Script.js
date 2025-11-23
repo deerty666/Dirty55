@@ -2,6 +2,15 @@
 // ----------------------------------------------------
 
 // 1. استيراد بيانات الفروع والقائمة من الملفات المنفصلة
+// في أعلى ملف Script.js
+
+// 1. استيراد بيانات الفروع من الملف المنفصل
+import { BRANCH_CONFIG } from './branchConfig.js';
+// 2. استيراد بيانات القائمة من الملف المنفصل
+import { menuData } from './menuData.js';
+
+// ... الآن يمكن للكود استخدام BRANCH_CONFIG و menuData ...
+
 import { BRANCH_CONFIG } from './branchConfig.js';
 import { menuData } from './menuData.js';
 
