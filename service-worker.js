@@ -1,14 +1,19 @@
 // اسم الكاش الخاص بنا
-const CACHE_NAME = 'deerty-menu-v1';
+const CACHE_NAME = 'deerty-menu-v2';
 
 // الملفات الأساسية التي يجب تخزينها مؤقتاً لتمكين التثبيت (PWA requirement)
+// في ملف service-worker.js
 const urlsToCache = [
     '/Dirty55/', 
     '/Dirty55/menu.html',
     '/Dirty55/style.css',
     '/Dirty55/Script.js',
+    // ✨ يجب إضافة الملفات الجديدة هنا:
+    '/Dirty55/branchConfig.js', 
+    '/Dirty55/menuData.js',
     '/Dirty55/manifest.json'
 ];
+
 
 self.addEventListener('install', (evt) => {
     // تخزين الملفات الأساسية الضرورية لتمكين التثبيت
