@@ -37,6 +37,7 @@ const menuData = [
     { 
         section:"الشوايه", 
         sectionImg: "/Dirty55/sh00.webp", // صورة القسم
+        description: "دجاج شواية طازج متبل ومشوي على الطريقة التقليدية.", //
         items:[
             // الوجبة 1
             {id:"sh1", img:"/Dirty55/sh00.webp", name:"حبة شواية", basePrice:46, availableIn: ['branch1','branch2', 'branch3'], options:[ 
