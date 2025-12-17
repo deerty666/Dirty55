@@ -85,75 +85,88 @@ header img {
 /* ================================================= */
 /* 🧭 3. الأقسام (Sections) - مع منطق التثبيت (Sticky) */
 /* ================================================= */
+
+/* الحاوية الأساسية للأقسام */
 #sections {
     display: flex;
     overflow-x: auto;
-    padding: 10px 15px;
-    gap: 10px;
+    padding: 20px 15px; /* زيادة المساحة العلوية والسفلية */
+    gap: 18px; /* مسافة أوسع بين البطاقات */
     white-space: nowrap;
     -webkit-overflow-scrolling: touch;
     scroll-snap-type: x mandatory;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
 }
 
 #sections::-webkit-scrollbar {
-    display: none; /* إخفاء شريط التمرير */
+    display: none; /* إخفاء شريط التمرير لمظهر أنيق */
 }
 
-/* 📌 تثبيت الأقسام عند التمرير */
+/* 📌 تثبيت الأقسام عند التمرير (إذا كنت تستخدم خاصية الـ Sticky) */
 .sections-sticky {
     position: fixed;
-    top: 70px; /* أسفل الـ header الثابت */
+    top: 70px; 
     left: 0;
     right: 0;
     background: var(--body-bg);
     padding-top: 10px;
     z-index: 9;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
+/* تصميم بطاقة القسم الجديدة */
 .sec-card {
     flex: 0 0 auto;
-    width: 100px;
-    height: 100px;
-    border-radius: 12px;
+    width: 115px; /* تكبير العرض */
+    height: 145px; /* تكبير الارتفاع */
+    border-radius: 25px; /* زوايا منحنية أكثر فخامة */
     background-color: var(--section-card-bg);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 5px;
+    padding: 12px;
     text-align: center;
     cursor: pointer;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
     border: 2px solid transparent;
-    transition: border-color 0.2s, background-color 0.2s;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* حركة انسيابية */
     scroll-snap-align: start;
 }
 
-.sec-card:last-child {
-    margin-left: 15px; /* لضمان وجود مسافة في النهاية */
-}
-
+/* تنسيق الصورة المكبرة */
 .sec-card img {
-    width: 50px;
-    height: 50px;
-    object-fit: contain;
-    border-radius: 8px;
-    margin-bottom: 4px;
+    width: 85px;  /* تكبير الصورة */
+    height: 85px; /* تكبير الصورة */
+    object-fit: cover;
+    border-radius: 50%; /* شكل دائري عصري */
+    margin-bottom: 12px;
+    background: #1a1a1a;
+    border: 2px solid rgba(195, 158, 106, 0.15);
+    transition: transform 0.3s ease;
 }
 
+/* اسم القسم */
 .sec-card .sec-name {
-    font-size: 0.75rem;
-    font-weight: 700;
+    font-size: 0.9rem; /* تكبير الخط قليلاً */
+    font-weight: 800; /* خط أعرض */
     color: var(--light-text);
     line-height: 1.2;
 }
 
+/* ✨ تأثير القسم المختار (Active) */
 .sec-card.active {
     border-color: var(--gold);
-    background-color: #333;
+    background-color: #2a2522;
+    transform: translateY(-10px); /* تأثير الرفع للأعلى */
+    box-shadow: 0 10px 20px rgba(195, 158, 106, 0.4);
 }
+
+.sec-card.active img {
+    border-color: var(--gold);
+    transform: scale(1.1); /* تكبير الصورة عند الاختيار */
+}
+
 
 /* ================================================= */
 /* 🍽️ 4. بطاقات الوجبات (Menu Cards) */
