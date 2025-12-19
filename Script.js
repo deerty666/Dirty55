@@ -1282,4 +1282,10 @@ function flyToCart(imgElement) {
         flyingImg.remove();
     }, 800);
 }
+function animateCartButton() {
+    const btn = document.getElementById("cartBtn");
+    btn.classList.remove("flash-cart-btn");
+    void btn.offsetWidth; // trick لإعادة الحركة
+    btn.classList.add("flash-cart-btn");
+}
 // ------------------------------------------
