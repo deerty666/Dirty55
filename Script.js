@@ -811,6 +811,7 @@ function addToCart(item){
 
     saveCart();
 flashCartButton();
+animateCartButton();   
 showSmartSuggestion(item);
 }
 // 🚀 ———————————————
