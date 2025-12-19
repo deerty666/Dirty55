@@ -700,3 +700,65 @@ header img {
 .suggestion-item:hover{
     background:#2d2723;
 }
+/* =========================
+   Premium Floating Cart
+   ========================= */
+
+#cartBtn {
+    position: fixed;
+    bottom: 18px;
+    right: 18px;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #E8C065, #b18a4a);
+    border: none;
+    box-shadow: 0 10px 25px rgba(0,0,0,.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    cursor: pointer;
+    transition: transform .25s ease, box-shadow .25s ease;
+}
+
+#cartBtn:hover {
+    transform: scale(1.08);
+    box-shadow: 0 14px 35px rgba(0,0,0,.75);
+}
+
+.cart-icon {
+    width: 30px;
+    height: 30px;
+    fill: #1A1512;
+}
+
+/* ====== Badge عدد العناصر ====== */
+#cartCount {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    background: #c11b17;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 800;
+    min-width: 22px;
+    height: 22px;
+    padding: 0 6px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 0 2px #1A1512;
+}
+
+/* ====== حركة عند الإضافة ====== */
+.flash-cart-btn {
+    animation: cartPulse .4s ease;
+}
+
+@keyframes cartPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.25); }
+    100% { transform: scale(1); }
+}
