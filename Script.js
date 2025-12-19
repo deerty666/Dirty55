@@ -1289,34 +1289,39 @@ function animateCartButton() {
     void btn.offsetWidth; // trick لإعادة الحركة
     btn.classList.add("flash-cart-btn");
 }
-/* =================================
-   🤖 + 🍎 منطق التثبيت (Android & iOS)
-================================= */
+// 🤖 + 🍎 منطق التثبيت (Android & iOS)
+// =================================
 
-
-// 🍎 iOS
+// 🔹 Helper: التحقق من نظام iOS
 function isIos() {
-  return /iphone|ipad|ipod/i.test(navigator.userAgent);
+    return /iphone|ipad|ipod/.test(window.navigator.userAgent.toLowerCase());
 }
 
+// 🔹 التحقق إذا كان التطبيق مثبت في الوضع المستقل (Standalone)
 function isInStandaloneMode() {
-  return window.navigator.standalone === true;
+    // لأجهزة iOS
+    return window.matchMedia('(display-mode: standalone)').matches 
+        || window.navigator.standalone === true;
 }
 
+// 🔹 إغلاق بانر التثبيت على iOS
 function closeIosBanner() {
-  document.getElementById('iosInstallBanner').style.display = 'none';
-  localStorage.setItem('iosInstallDismissed', 'true');
+    const banner = document.getElementById('iosInstallBanner');
+    if (banner) {
+        banner.style.display = 'none';
+        localStorage.setItem('iosInstallDismissed', 'true');
+    }
 }
 
+// 🔹 عند تحميل الصفحة
 window.addEventListener('load', () => {
-  if (
-    isIos() &&
-    !isInStandaloneMode() &&
-    !localStorage.getItem('iosInstallDismissed')
-  ) {
-    document.getElementById('iosInstallBanner').style.display = 'block';
-  }
+    // عرض بانر التثبيت فقط لمستخدمي iOS وغير المثبتين
+    if (isIos() && !isInStandaloneMode() && !localStorage.getItem('iosInstallDismissed')) {
+        const banner = document.getElementById('iosInstallBanner');
+        if (banner) banner.style.display = 'block';
+    }
 });
+
 
 
 
