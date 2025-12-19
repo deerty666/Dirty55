@@ -1289,4 +1289,58 @@ function animateCartButton() {
     void btn.offsetWidth; // trick لإعادة الحركة
     btn.classList.add("flash-cart-btn");
 }
+/* =================================
+   🤖 + 🍎 منطق التثبيت (Android & iOS)
+================================= */
+
+// 🤖 Android
+let deferredPrompt;
+const installBtn = document.getElementById('installAppBtn');
+
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  installBtn.style.display = 'block';
+});
+
+installBtn.addEventListener('click', async () => {
+  if (!deferredPrompt) return;
+  deferredPrompt.prompt();
+  await deferredPrompt.userChoice;
+  deferredPrompt = null;
+  installBtn.style.display = 'none';
+});
+
+// 🍎 iOS
+function isIos() {
+  return /iphone|ipad|ipod/i.test(navigator.userAgent);
+}
+
+function isInStandaloneMode() {
+  return window.navigator.standalone === true;
+}
+
+function closeIosBanner() {
+  document.getElementById('iosInstallBanner').style.display = 'none';
+  localStorage.setItem('iosInstallDismissed', 'true');
+}
+
+window.addEventListener('load', () => {
+  if (
+    isIos() &&
+    !isInStandaloneMode() &&
+    !localStorage.getItem('iosInstallDismissed')
+  ) {
+    document.getElementById('iosInstallBanner').style.display = 'block';
+  }
+});
+
+/* =================================
+   📦 تسجيل Service Worker (آخر شيء)
+================================= */
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/Dirty55/service-worker.js');
+  });
+}
 // ------------------------------------------
