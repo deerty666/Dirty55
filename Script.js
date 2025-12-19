@@ -1294,7 +1294,7 @@ function animateCartButton() {
 ================================= */
 
 // 🤖 Android
-let deferredPrompt;
+
 const installBtn = document.getElementById('installAppBtn');
 
 window.addEventListener('beforeinstallprompt', (e) => {
@@ -1336,5 +1336,5 @@ window.addEventListener('load', () => {
 });
 
 
-}
+
 // ------------------------------------------
