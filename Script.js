@@ -1335,12 +1335,6 @@ window.addEventListener('load', () => {
   }
 });
 
-/* =================================
-   📦 تسجيل Service Worker (آخر شيء)
-================================= */
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/Dirty55/service-worker.js');
-  });
+
 }
 // ------------------------------------------
