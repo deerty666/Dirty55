@@ -700,3 +700,30 @@ header img {
 .suggestion-item:hover{
     background:#2d2723;
 }
+/* ===============================
+   🍎 بانر تثبيت الآيفون
+================================ */
+.ios-install-banner {
+  position: fixed;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #111;
+  color: #fff;
+  padding: 16px 20px;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 360px;
+  text-align: center;
+  z-index: 9999;
+  box-shadow: 0 10px 25px rgba(0,0,0,.5);
+}
+
+.ios-install-banner button {
+  margin-top: 10px;
+  background: var(--gold);
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: bold;
+}
