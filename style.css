@@ -727,3 +727,35 @@ header img {
   border-radius: 8px;
   font-weight: bold;
 }
+/* ============================= */
+/* Sticky Search + Sections BAR */
+/* ============================= */
+
+#searchBar {
+    position: sticky;
+    top: 0;
+    z-index: 10001;
+    background: #000;
+    padding: 12px;
+    border: none;
+    outline: none;
+    color: #fff;
+}
+
+#sections {
+    position: sticky;
+    top: 58px; /* تحت شريط البحث */
+    z-index: 10000;
+    background: #000;
+    padding: 10px 8px;
+}
+
+/* ظل عند النزول */
+.sticky-shadow {
+    box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+}
+
+/* منع تغطية أول الأصناف */
+#menuList {
+    scroll-margin-top: 130px;
+}
