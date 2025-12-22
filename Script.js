@@ -1,7 +1,7 @@
 /* ====== بيانات الفروع - يرجى تعديل أرقام الواتساب والأسماء حسب الرغبة ====== */
 const BRANCH_CONFIG = {
     'branch1': { 
-        whatsapp: '966536803598', // ⭐️ رقم واتساب فرع الرياض (كمثال)
+        whatsapp: '966112020203', // ⭐️ رقم واتساب فرع الرياض (كمثال)
         name: 'لبن الاحمدية', // اسم الفرع في الرسائل وعنوان الصفحة
         deliveryFee: 5,
     },
@@ -54,7 +54,7 @@ const menuData = [
             ]},
             // الوجبة 3: نص شواية سادة
             {id:"sh3", img:"/Dirty55/sh10.webp", name:"ربع دجاج ",
-             basePrice:13,
+             basePrice:15,
              isBestSeller: true,
              availableIn: ['branch1', 'branch2', 'branch3'], options:[
                {name:"شوايه", price:0},
