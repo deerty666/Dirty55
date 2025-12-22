@@ -1,7 +1,7 @@
 /* ====== بيانات الفروع - يرجى تعديل أرقام الواتساب والأسماء حسب الرغبة ====== */
 const BRANCH_CONFIG = {
     'branch1': { 
-        whatsapp: '966112020203', // ⭐️ رقم واتساب فرع الرياض (كمثال)
+        whatsapp: '966536803598', // ⭐️ رقم واتساب فرع الرياض (كمثال)
         name: 'لبن الاحمدية', // اسم الفرع في الرسائل وعنوان الصفحة
         deliveryFee: 5,
     },
@@ -1234,63 +1234,7 @@ window.addEventListener('scroll', () => {
     }
 });
 
-// 🤖 + 🍎 منطق التثبيت (Android & iOS)
-// =================================
 
-let deferredPrompt;
-
-// 🔹 Helper: التحقق من نظام iOS
-function isIos() {
-    return /iphone|ipad|ipod/.test(navigator.userAgent.toLowerCase());
-}
-
-// 🔹 التحقق إذا كان التطبيق مثبت في الوضع المستقل (Standalone)
-function isInStandaloneMode() {
-    return window.matchMedia('(display-mode: standalone)').matches
-        || window.navigator.standalone === true;
-}
-
-// 🔹 إغلاق بانر التثبيت على iOS
-function closeIosBanner() {
-    const banner = document.getElementById('iosInstallBanner');
-    if (banner) {
-        banner.style.display = 'none';
-        localStorage.setItem('iosInstallDismissed', 'true');
-    }
-}
-
-// 🔹 عند تحميل الصفحة (iOS Banner فقط)
-window.addEventListener('load', () => {
-    if (
-        isIos() &&
-        !isInStandaloneMode() &&
-        !localStorage.getItem('iosInstallDismissed')
-    ) {
-        const banner = document.getElementById('iosInstallBanner');
-        if (banner) banner.style.display = 'block';
-    }
-});
-
-// ====== PWA Install Logic (Android فقط) ======
-window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault();
-    deferredPrompt = e;
-
-    if (isIos() || isInStandaloneMode()) return;
-
-    const installAppBtn = document.getElementById('installAppBtn');
-    if (installAppBtn) installAppBtn.style.display = 'block';
-});
-
-document.getElementById('installAppBtn')?.addEventListener('click', async () => {
-    if (!deferredPrompt) return;
-
-    document.getElementById('installAppBtn').style.display = 'none';
-    deferredPrompt.prompt();
-
-    await deferredPrompt.userChoice;
-    deferredPrompt = null;
-});
 renderSections(); 
 renderCart();
 
