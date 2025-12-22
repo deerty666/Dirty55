@@ -1282,38 +1282,4 @@ function flyToCart(imgElement) {
         flyingImg.remove();
     }, 800);
 }
-🤖 + 🍎 منطق التثبيت (Android & iOS)
-// =================================
-
-// 🔹 Helper: التحقق من نظام iOS
-function isIos() {
-return /iphone|ipad|ipod/.test(window.navigator.userAgent.toLowerCase());
-}
-
-// 🔹 التحقق إذا كان التطبيق مثبت في الوضع المستقل (Standalone)
-function isInStandaloneMode() {
-// لأجهزة iOS
-return window.matchMedia('(display-mode: standalone)').matches
-|| window.navigator.standalone === true;
-}
-
-// 🔹 إغلاق بانر التثبيت على iOS
-function closeIosBanner() {
-const banner = document.getElementById('iosInstallBanner');
-if (banner) {
-banner.style.display = 'none';
-localStorage.setItem('iosInstallDismissed', 'true');
-}
-}
-
-// 🔹 عند تحميل الصفحة
-window.addEventListener('load', () => {
-// عرض بانر التثبيت فقط لمستخدمي iOS وغير المثبتين
-if (isIos() && !isInStandaloneMode() && !localStorage.getItem('iosInstallDismissed')) {
-const banner = document.getElementById('iosInstallBanner');
-if (banner) banner.style.display = 'block';
-}
-});
-
-// ----
 // ------------------------------------------
