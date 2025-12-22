@@ -1316,4 +1316,19 @@ function flyToCart(imgElement) {
         flyingImg.remove();
     }, 800);
 }
+// كل أكوادك السابقة هنا
+// ...
+
+// ======= كود تجربة الإشعارات =======
+if ("Notification" in window) {
+  Notification.requestPermission().then(permission => {
+    if (permission === "granted") {
+      new Notification("🔔 إشعار تجريبي", {
+        body: "لو وصل لك هذا الإشعار، النظام شغال ✅"
+      });
+    } else {
+      alert("تم رفض الإشعارات ❌");
+    }
+  });
+}
 // ------------------------------------------
