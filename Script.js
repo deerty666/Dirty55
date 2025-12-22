@@ -536,6 +536,40 @@ let cart = JSON.parse(localStorage.getItem('deerty_cart') || '[]');
 const sectionsEl = document.getElementById('sections');
 const menuList = document.getElementById('menuList');
 const cartBtn = document.getElementById('cartBtn');
+// 🤖 + 🍎 منطق التثبيت (Android & iOS)
+// =================================
+
+// 🔹 Helper: التحقق من نظام iOS
+function isIos() {
+    return /iphone|ipad|ipod/.test(window.navigator.userAgent.toLowerCase());
+}
+
+// 🔹 التحقق إذا كان التطبيق مثبت في الوضع المستقل (Standalone)
+function isInStandaloneMode() {
+    return window.matchMedia('(display-mode: standalone)').matches
+        || window.navigator.standalone === true;
+}
+
+// 🔹 إغلاق بانر التثبيت على iOS
+function closeIosBanner() {
+    const banner = document.getElementById('iosInstallBanner');
+    if (banner) {
+        banner.style.display = 'none';
+        localStorage.setItem('iosInstallDismissed', 'true');
+    }
+}
+
+// 🔹 عند تحميل الصفحة
+window.addEventListener('load', () => {
+    if (
+        isIos() &&
+        !isInStandaloneMode() &&
+        !localStorage.getItem('iosInstallDismissed')
+    ) {
+        const banner = document.getElementById('iosInstallBanner');
+        if (banner) banner.style.display = 'block';
+    }
+});
 const cartCount = document.getElementById('cartCount');
 const cartDrawer = document.getElementById('cartDrawer');
 const cartOverlay = document.getElementById('cartOverlay');
