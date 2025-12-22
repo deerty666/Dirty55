@@ -533,7 +533,22 @@ const dynamicSuggestionRules = {
 };
 
 let cart = JSON.parse(localStorage.getItem('deerty_cart') || '[]');
+const searchBar = document.getElementById('searchBar');
 const sectionsEl = document.getElementById('sections');
+// ===============================
+// Sticky Search + Sections FINAL
+// ===============================
+window.addEventListener("scroll", () => {
+    if (!searchBar || !sectionsEl) return;
+
+    if (window.scrollY > 10) {
+        searchBar.classList.add("sticky-shadow");
+        sectionsEl.classList.add("sticky-shadow");
+    } else {
+        searchBar.classList.remove("sticky-shadow");
+        sectionsEl.classList.remove("sticky-shadow");
+    }
+});
 const menuList = document.getElementById('menuList');
 const cartBtn = document.getElementById('cartBtn');
 const cartCount = document.getElementById('cartCount');
@@ -1219,20 +1234,6 @@ installAppBtn.addEventListener('click', async () => {
 
 searchBar.addEventListener('input', (e) => {
     renderMenu(currentSection, e.target.value);
-});
-
-
-// ====== إضافة منطق الـ Sticky Header (التثبيت مع الظل) باستخدام منطقك المفضل ======
-const stickyHeaderHeight = 80; 
-window.addEventListener('scroll', () => {
-    const sectionsTop = sectionsEl.getBoundingClientRect().top; // نستخدم sectionsEl
-    
-    // إذا كان العنصر في موضع التثبيت (أو تجاوزه)
-    if (sectionsTop <= stickyHeaderHeight) {
-        sectionsEl.classList.add('sections-sticky');
-    } else {
-        sectionsEl.classList.remove('sections-sticky');
-    }
 });
 
 
