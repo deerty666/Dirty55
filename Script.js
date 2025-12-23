@@ -308,9 +308,23 @@ const menuData = [
                     {name:"كيلو", price:120}
                 ]
             },
-            // الوجبة 5 (مشكل مشاوي - أكثر مبيعاً)
+            
             {
                 id:"gr5",
+                img:"/Dirty55/gr04.webp",
+                name:"مشكل فاخر على الأرز32 سيخ",
+                basePrice:300,
+                isBestSeller: true, 
+                availableIn: ['branch1'], // مقيد بـ branch1
+                options:[
+                    {name:"تامين صحن", price:30},
+                    
+         
+                ]
+            },
+            // الوجبة 5 (مشكل مشاوي - أكثر مبيعاً)
+            {
+                id:"gr6",
                 img:"/Dirty55/gr05.webp",
                 name:"مشكل مشاوي",
                 basePrice:0,
