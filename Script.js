@@ -261,12 +261,12 @@ const menuData = [
                 id:"gr1",
                 img:"/Dirty55/gr01.webp",
                 name:"كباب لحم",
-                basePrice:38,
+                basePrice:0,
                 availableIn: ['branch1'], // مقيد بـ branch1
                 options:[
-                    {name:"نفر", price:0},
-                    {name:"نص كيلو", price:38},
-                    {name:"كيلو", price:112}
+                    {name:"نفر", price:38},
+                    {name:"نص كيلو", price:76},
+                    {name:"كيلو", price:150}
                 ]
             },
             // الوجبة 2
@@ -274,12 +274,12 @@ const menuData = [
                 id:"gr2",
                 img:"/Dirty55/gr02.webp",
                 name:"كباب دجاج",
-                basePrice:30,
+                basePrice:0,
                 availableIn: ['branch1'], // مقيد بـ branch1
                 options:[
-                    {name:"نفر", price:0},
-                    {name:"نص كيلو", price:30},
-                    {name:"كيلو", price:90}
+                    {name:"نفر", price:30},
+                    {name:"نص كيلو", price:60},
+                    {name:"كيلو", price:120}
                 ]
             },
             // الوجبة 3
@@ -287,12 +287,12 @@ const menuData = [
                 id:"gr3",
                 img:"/Dirty55/gr03.webp",
                 name:"اوصال لحم",
-                basePrice:45,
+                basePrice:0,
                 availableIn: ['branch1'], // مقيد بـ branch1
                 options:[
-                    {name:"نفر", price:0},
-                    {name:"نص كيلو", price:45},
-                    {name:"كيلو", price:135}
+                    {name:"نفر", price:45},
+                    {name:"نص كيلو", price:90},
+                    {name:"كيلو", price:180}
                 ]
             },
             // الوجبة 4
@@ -300,12 +300,12 @@ const menuData = [
                 id:"gr4",
                 img:"/Dirty55/gr04.webp",
                 name:"شيش طاووق",
-                basePrice:30,
+                basePrice:0,
                 availableIn: ['branch1'], // مقيد بـ branch1
                 options:[
-                    {name:"نفر", price:0},
-                    {name:"نص كيلو", price:30},
-                    {name:"كيلو", price:90}
+                    {name:"نفر", price:30},
+                    {name:"نص كيلو", price:60},
+                    {name:"كيلو", price:120}
                 ]
             },
             // الوجبة 5 (مشكل مشاوي - أكثر مبيعاً)
@@ -313,13 +313,13 @@ const menuData = [
                 id:"gr5",
                 img:"/Dirty55/gr05.webp",
                 name:"مشكل مشاوي",
-                basePrice:35,
+                basePrice:0,
                 isBestSeller: true, 
                 availableIn: ['branch1'], // مقيد بـ branch1
                 options:[
-                    {name:"نفر", price:0},
-                    {name:"نص كيلو", price:35},
-                    {name:"كيلو", price:95}
+                    {name:"نفر", price:35},
+                    {name:"نص كيلو", price:70},
+                    {name:"كيلو", price:130}
                 ]
             }
         ]
