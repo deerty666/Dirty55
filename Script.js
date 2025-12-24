@@ -11,7 +11,7 @@ const BRANCH_CONFIG = {
         deliveryFee: 5, 
     },
     'branch3': {
-        whatsapp: '9665XXXXXXXX3', // ⚠️ يرجى تغيير رقم الواتساب لفرع مكة
+        whatsapp: '966500535160', // ⚠️ يرجى تغيير رقم الواتساب لفرع مكة
         name: 'الروضه خالد بن الوليد ', 
         deliveryFee: 5,
     }
