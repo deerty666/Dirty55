@@ -46,11 +46,11 @@ const menuData = [
                 {name:"رز مثلوثه", price:4}
             ]},
             // الوجبة 2: تم تغيير اسمها
-            {id:"sh2", img:"/Dirty55/sh00.webp", name:"نص شواية بالرز", basePrice:24, availableIn: ['branch1', 'branch2', 'branch3'], options:[
+            {id:"sh2", img:"/Dirty55/sh00.webp", name:"نص شواية بالرز", basePrice:23, availableIn: ['branch1', 'branch2', 'branch3'], options:[
                 {name:"رز شعبي", price:0},
-                {name:"رز بشاور", price:1},
-                {name:"رز مندي", price:1},
-                {name:"رز مثلوثه", price:1}
+                {name:"رز بشاور", price:2},
+                {name:"رز مندي", price:2},
+                {name:"رز مثلوثه", price:2}
             ]},
             // الوجبة 3: نص شواية سادة
             {id:"sh3", img:"/Dirty55/sh10.webp", name:"ربع دجاج ",
@@ -88,11 +88,11 @@ const menuData = [
                 {name:"رز مثلوثه", price:4}
             ]},
             // الوجبة 2
-            {id:"md2", img:"/Dirty55/md00.webp", name:"نص مظبي", basePrice:24, availableIn: ['branch1', 'branch2', 'branch3'], options:[
+            {id:"md2", img:"/Dirty55/md00.webp", name:"نص مظبي", basePrice:23, availableIn: ['branch1', 'branch2', 'branch3'], options:[
                 {name:"رز شعبي", price:0},
-                {name:"رز بشاور", price:1},
-                {name:"رز مندي", price:1},
-                {name:"رز مثلوثه", price:1}
+                {name:"رز بشاور", price:2},
+                {name:"رز مندي", price:2},
+                {name:"رز مثلوثه", price:2}
             ]}
         ]
     },
@@ -108,11 +108,11 @@ const menuData = [
                 {name:"رز مثلوثه", price:4}
             ]},
             // الوجبة 2
-            {id:"mn2", img:"/Dirty55/mn00.webp", name:"نص مندي", basePrice:24, availableIn: ['branch1', 'branch2', 'branch3'], options:[
+            {id:"mn2", img:"/Dirty55/mn00.webp", name:"نص مندي", basePrice:23, availableIn: ['branch1', 'branch2', 'branch3'], options:[
                 {name:"رز شعبي", price:0},
-                {name:"رز بشاور", price:1},
-                {name:"رز مندي", price:1},
-                {name:"رز مثلوثه", price:1}
+                {name:"رز بشاور", price:2},
+                {name:"رز مندي", price:2},
+                {name:"رز مثلوثه", price:2}
             ]}
         ]
     },
@@ -128,11 +128,11 @@ const menuData = [
                 {name:"رز مثلوثه", price:4}
             ]},
             // الوجبة 2
-            {id:"mdf2", img:"/Dirty55/mf00.webp", name:"نص مدفون", basePrice:24, availableIn: ['branch1', 'branch2', 'branch3'], options:[
+            {id:"mdf2", img:"/Dirty55/mf00.webp", name:"نص مدفون", basePrice:23, availableIn: ['branch1', 'branch2', 'branch3'], options:[
                 {name:"رز شعبي", price:0},
-                {name:"رز بشاور", price:1},
-                {name:"رز مندي", price:1},
-                {name:"رز مثلوثه", price:1}
+                {name:"رز بشاور", price:2},
+                {name:"رز مندي", price:2},
+                {name:"رز مثلوثه", price:2}
             ]}
         ]
     },
