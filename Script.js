@@ -573,17 +573,6 @@ function closeIosBanner() {
     }
 }
 
-// 🔹 عند تحميل الصفحة
-window.addEventListener('load', () => {
-    if (
-        isIos() &&
-        !isInStandaloneMode() &&
-        !localStorage.getItem('iosInstallDismissed')
-    ) {
-        const banner = document.getElementById('iosInstallBanner');
-        if (banner) banner.style.display = 'block';
-    }
-});
 const cartCount = document.getElementById('cartCount');
 const cartDrawer = document.getElementById('cartDrawer');
 const cartOverlay = document.getElementById('cartOverlay');
@@ -1330,27 +1319,41 @@ function flyToCart(imgElement) {
         flyingImg.remove();
     }, 800);
 }
+// ===============================
+// iOS Install Banner (FINAL & STABLE)
+// ===============================
 (function () {
-  const isIos = /iphone|ipad|ipod/i.test(window.navigator.userAgent);
-  const isSafari = /^((?!chrome|android).)*safari/i.test(window.navigator.userAgent);
-  const isInStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
 
-  // لا تظهر إذا:
-  // - ليس آيفون
-  // - ليس Safari
-  // - التطبيق مثبت
-  // - المستخدم أغلق البانر سابقاً
-  if (!isIos || !isSafari || isInStandalone || localStorage.getItem('iosInstallDismissed')) {
+  const ua = window.navigator.userAgent.toLowerCase();
+
+  const isIOS = /iphone|ipad|ipod/.test(ua);
+  const isSafari = /safari/.test(ua) && !/crios|fxios|opios|edgios|chrome/.test(ua);
+
+  const isStandalone =
+    window.matchMedia('(display-mode: standalone)').matches ||
+    window.navigator.standalone === true;
+
+  // لا نعرض البانر إذا:
+  if (
+    !isIOS ||
+    !isSafari ||
+    isStandalone ||
+    localStorage.getItem('iosInstallDismissed')
+  ) {
     return;
   }
 
-  // تأخير بسيط لتجربة أفضل
-  setTimeout(() => {
-    const banner = document.getElementById('iosInstallBanner');
-    if (banner) banner.style.display = 'block';
-  }, 3000);
+  // ننتظر حتى يكتمل تحميل الصفحة
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      const banner = document.getElementById('iosInstallBanner');
+      if (banner) banner.style.display = 'block';
+    }, 2500);
+  });
+
 })();
 
+// زر الإغلاق
 function closeIosBanner() {
   localStorage.setItem('iosInstallDismissed', '1');
   const banner = document.getElementById('iosInstallBanner');
