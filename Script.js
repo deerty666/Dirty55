@@ -1330,4 +1330,30 @@ function flyToCart(imgElement) {
         flyingImg.remove();
     }, 800);
 }
+(function () {
+  const isIos = /iphone|ipad|ipod/i.test(window.navigator.userAgent);
+  const isSafari = /^((?!chrome|android).)*safari/i.test(window.navigator.userAgent);
+  const isInStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+
+  // لا تظهر إذا:
+  // - ليس آيفون
+  // - ليس Safari
+  // - التطبيق مثبت
+  // - المستخدم أغلق البانر سابقاً
+  if (!isIos || !isSafari || isInStandalone || localStorage.getItem('iosInstallDismissed')) {
+    return;
+  }
+
+  // تأخير بسيط لتجربة أفضل
+  setTimeout(() => {
+    const banner = document.getElementById('iosInstallBanner');
+    if (banner) banner.style.display = 'block';
+  }, 3000);
+})();
+
+function closeIosBanner() {
+  localStorage.setItem('iosInstallDismissed', '1');
+  const banner = document.getElementById('iosInstallBanner');
+  if (banner) banner.style.display = 'none';
+}
 // ------------------------------------------
