@@ -1338,4 +1338,32 @@ function renderCartSuggestions() {
         suggestionsContainer.appendChild(itemDiv);
     });
 }
+/* ===============================
+   🍎 iOS Install Banner – FIX
+================================ */
+
+document.addEventListener('DOMContentLoaded', function () {
+
+    const iosBanner = document.getElementById('iosInstallBanner');
+    if (!iosBanner) return;
+
+    // 1️⃣ تأكد أنه iOS
+    if (!isIos()) return;
+
+    // 2️⃣ تأكد أنه غير مثبت
+    if (isInStandaloneMode()) return;
+
+    // 3️⃣ لا تكرره لو أغلقه المستخدم
+    if (localStorage.getItem('iosBannerDismissed') === 'true') return;
+
+    // ✅ أظهر البانر
+    iosBanner.style.display = 'block';
+});
+
+// عند الإغلاق
+function closeIosBanner() {
+    const banner = document.getElementById('iosInstallBanner');
+    banner.style.display = 'none';
+    localStorage.setItem('iosBannerDismissed', 'true');
+}
 // ------------------------------------------
