@@ -98,17 +98,24 @@ header img {
         box-shadow: 0 0 0 0 rgba(195, 158, 106, 0);
     }
 }
-
 #sections {
     display: flex;
     overflow-x: auto;
-    padding: 20px 15px;
+    padding: 15px 15px;      /* تعديل بسيط للحشوة */
     gap: 15px;
     white-space: nowrap;
     -webkit-overflow-scrolling: touch;
     scroll-snap-type: x mandatory;
     margin-bottom: 20px;
+
+    /* --- خصائص التثبيت الجديدة --- */
+    position: sticky;        /* يجعل العنصر يلتصق عند التمرير */
+    top: 70px;               /* يحدد المسافة من أعلى الشاشة */
+    z-index: 9;              /* يضمن بقاء الشريط فوق المحتوى الآخر */
+    background-color: var(--body-bg); /* لون الخلفية لتغطية ما يمر تحته */
+    padding-bottom: 20px;    /* مسافة إضافية للجمالية */
 }
+
 
 #sections::-webkit-scrollbar {
     display: none;
