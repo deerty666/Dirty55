@@ -1,4 +1,4 @@
-/* ====== بيانات الفروع - يرجى تعديل أرقام الواتساب والأسماء حسب الرغبة ====== */
+غ٦/* ====== بيانات الفروع - يرجى تعديل أرقام الواتساب والأسماء حسب الرغبة ====== */
 const BRANCH_CONFIG = {
     'branch1': { 
         whatsapp: '966112022358', // ⭐️ رقم واتساب فرع الرياض (كمثال)
@@ -1241,36 +1241,6 @@ function flyToCart(imgElement) {
         flyingImg.remove();
     }, 800);
 }
- // 🍎 iOS Install Banner — FINAL & STABLE
-(function () {
-
-  const ua = navigator.userAgent.toLowerCase();
-
-  const isIOS = /iphone|ipad|ipod/.test(ua);
-  const isSafari = /safari/.test(ua) && !/crios|fxios|opios|edgios|chrome/.test(ua);
-
-  const isStandalone =
-    window.matchMedia('(display-mode: standalone)').matches ||
-    window.navigator.standalone === true;
-
-  if (!isIOS || !isSafari || isStandalone || localStorage.getItem('iosInstallDismissed')) {
-    return;
-  }
-
-  window.addEventListener('load', () => {
-    setTimeout(() => {
-      const banner = document.getElementById('iosInstallBanner');
-      if (banner) banner.style.display = 'block';
-    }, 3000);
-  });
-
-})();
-
-function closeIosBanner() {
-  localStorage.setItem('iosInstallDismissed', '1');
-  const banner = document.getElementById('iosInstallBanner');
-  if (banner) banner.style.display = 'none';
-} 
 /* ================================================= */
 /* 🛒 منطق "رف الاقتراحات" الذكي (استراتيجية الكاشير) */
 /* ================================================= */
@@ -1338,4 +1308,35 @@ function renderCartSuggestions() {
         suggestionsContainer.appendChild(itemDiv);
     });
 }
+
+ // 🍎 iOS Install Banner — FINAL & STABLE
+(function () {
+
+  const ua = navigator.userAgent.toLowerCase();
+
+  const isIOS = /iphone|ipad|ipod/.test(ua);
+  const isSafari = /safari/.test(ua) && !/crios|fxios|opios|edgios|chrome/.test(ua);
+
+  const isStandalone =
+    window.matchMedia('(display-mode: standalone)').matches ||
+    window.navigator.standalone === true;
+
+  if (!isIOS || !isSafari || isStandalone || localStorage.getItem('iosInstallDismissed')) {
+    return;
+  }
+
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      const banner = document.getElementById('iosInstallBanner');
+      if (banner) banner.style.display = 'block';
+    }, 3000);
+  });
+
+})();
+
+function closeIosBanner() {
+  localStorage.setItem('iosInstallDismissed', '1');
+  const banner = document.getElementById('iosInstallBanner');
+  if (banner) banner.style.display = 'none';
+} 
 // ------------------------------------------
