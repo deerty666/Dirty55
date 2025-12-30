@@ -1243,36 +1243,34 @@ function flyToCart(imgElement) {
         flyingImg.remove();
     }, 800);
 }
- // 🍎 iOS Install Banner — FINAL & STABLE
-(function () {
+// ✅ ألصق هذا الكود في نهاية ملف Script.js بدلاً من الكود القديم
 
-  const ua = navigator.userAgent.toLowerCase();
+document.addEventListener("DOMContentLoaded", () => {
+    // التحقق هل المتصفح هو سفاري على آيفون/آيباد
+    const ua = navigator.userAgent.toLowerCase();
+    const isIOS = /iphone|ipad|ipod/.test(ua);
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
 
-  const isIOS = /iphone|ipad|ipod/.test(ua);
-  const isSafari = /safari/.test(ua) && !/crios|fxios|opios|edgios|chrome/.test(ua);
-
-  const isStandalone =
-    window.matchMedia('(display-mode: standalone)').matches ||
-    window.navigator.standalone === true;
-
-  if (!isIOS || !isSafari || isStandalone || localStorage.getItem('iosInstallDismissed')) {
-    return;
-  }
-
-  window.addEventListener('load', () => {
-    setTimeout(() => {
-      const banner = document.getElementById('iosInstallBanner');
-      if (banner) banner.style.display = 'block';
-    }, 3000);
-  });
-
-})();
+    // إذا كان آيفون ولم يتم تثبيته بعد
+    if (isIOS && !isStandalone) {
+        const iosBtn = document.getElementById('iosHelpBtn');
+        if (iosBtn) {
+            iosBtn.style.display = 'inline-flex'; // إظهار الزر العلوي
+            
+            // عند الضغط، تظهر القائمة السفلية
+            iosBtn.addEventListener('click', () => {
+                const banner = document.getElementById('iosInstallBanner');
+                if (banner) banner.style.display = 'block';
+            });
+        }
+    }
+});
 
 function closeIosBanner() {
-  localStorage.setItem('iosInstallDismissed', '1');
-  const banner = document.getElementById('iosInstallBanner');
-  if (banner) banner.style.display = 'none';
-} 
+    const banner = document.getElementById('iosInstallBanner');
+    if (banner) banner.style.display = 'none';
+}
+
 /* ================================================= */
 /* 🛒 منطق "رف الاقتراحات" الذكي (استراتيجية الكاشير) */
 /* ================================================= */
