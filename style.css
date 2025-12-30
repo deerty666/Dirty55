@@ -795,31 +795,100 @@ div[style*="border-top"] label {
         background-position: 468px 0;
     }
 }
+/* ================================================= */
+/* 🍏 11. زر الآيفون وقائمة التعليمات (التصميم الجديد) */
+/* ================================================= */
 
-/* ===============================
-   🍎 بانر تثبيت الآيفون
-================================ */
-.ios-install-banner {
-  position: fixed;
-  bottom: 15px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #111;
-  color: #fff;
-  padding: 16px 20px;
-  border-radius: 16px;
-  width: 90%;
-  max-width: 360px;
-  text-align: center;
-  z-index: 9999;
-  box-shadow: 0 10px 25px rgba(0,0,0,.5);
+/* 1. تنسيق الزر الذهبي في الأعلى (الكبسولة) */
+.ios-btn {
+    background: rgba(195, 158, 106, 0.1); /* خلفية شفافة ذهبية */
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    padding: 6px 14px;
+    border-radius: 50px; /* حواف دائرية بالكامل */
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    margin-right: 10px;
+    display: none; /* مخفي افتراضياً، يظهر بالجافاسكربت */
+    align-items: center;
+    gap: 6px;
+    transition: all 0.3s ease;
 }
 
+.ios-btn:hover {
+    background: var(--gold);
+    color: #000;
+    transform: translateY(-2px); /* حركة طفيفة عند التمرير */
+}
+
+/* 2. القائمة المنزلقة من الأسفل (Sheet) */
+.ios-install-banner {
+    display: none; /* مخفي افتراضياً */
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%; /* عرض كامل */
+    background: #1A1512; /* لون داكن مطابق للهوية */
+    border-top: 2px solid var(--gold); /* خط ذهبي في الأعلى */
+    border-radius: 20px 20px 0 0; /* تدوير الزوايا العلوية فقط */
+    padding: 30px 20px 40px;
+    box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.8);
+    z-index: 10001; /* فوق كل العناصر */
+    text-align: center;
+    
+    /* حركة الانزلاق من الأسفل */
+    animation: slideUpIOS 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+@keyframes slideUpIOS {
+    from { transform: translateY(100%); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* تنسيق قائمة الخطوات */
+.ios-steps {
+    list-style: none;
+    padding: 0;
+    margin: 0 auto 25px;
+    display: inline-block;
+    text-align: right;
+    max-width: 300px;
+    width: 100%;
+}
+
+.ios-steps li {
+    margin-bottom: 12px;
+    font-size: 0.95rem;
+    color: #eee;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.ios-icon {
+    font-size: 1.3rem;
+    background: rgba(255,255,255,0.1);
+    padding: 5px;
+    border-radius: 8px;
+    vertical-align: middle;
+}
+
+/* زر "مفهوم" لإغلاق القائمة */
 .ios-install-banner button {
-  margin-top: 10px;
-  background: var(--gold);
-  border: none;
-  padding: 8px 16px;
-  border-radius: 8px;
-  font-weight: bold;
+    background: var(--gold);
+    color: #000;
+    border: none;
+    padding: 12px 40px;
+    border-radius: 12px;
+    font-weight: 800;
+    font-size: 1rem;
+    cursor: pointer;
+    width: 100%;
+    max-width: 300px;
+    transition: background 0.2s;
+}
+
+.ios-install-banner button:hover {
+    background: #a07c4c;
 }
