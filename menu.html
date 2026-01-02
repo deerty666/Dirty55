@@ -7,11 +7,12 @@
   OneSignalDeferred.push(async function(OneSignal) {
     await OneSignal.init({
       appId: "df5ef4e2-c4e6-42a0-acac-f88ac45af735",
-      // هذا السطر يخبر النظام بأن النطاق هو اسم المستودع
       serviceWorkerParam: { scope: "/Dirty55/" },
-      serviceWorkerPath: "OneSignalSDKWorker.js"
+      serviceWorkerPath: "OneSignalSDKWorker.js",
+      notifyButton: { enable: true } // <--- أضف هذا السطر هنا
     });
   });
+
 </script>
    
 <meta charset="utf-8" />
