@@ -1006,84 +1006,6 @@ sendWhatsapp.addEventListener('click', () => {
 });
 
 
-/* ====== منطق الإشعارات المنبثقة (Soft Prompt Notification) - جديد ومحسن ====== */
-const notificationPrompt = document.getElementById('notificationPrompt');
-const allowNotificationsBtn = document.getElementById('allowNotifications');
-const denyNotificationsBtn = document.getElementById('denyNotifications');
-
-function requestNotificationPermission() {
-    Notification.requestPermission().then(permission => {
-        if (permission === 'granted') {
-            console.log("Notification permission granted.");
-            // إشعار ترحيبي
-            new Notification('أهلاً بك في سحايب ديرتي!', {
-                body: 'تم تفعيل الإشعارات بنجاح. سنعلمك بأحدث العروض!',
-                icon: '/Dirty55/Icon-192.png' 
-            });
-        } else {
-            console.log("Notification permission denied or ignored.");
-        }
-    });
-}
-
-function showNotificationPrompt() {
-    // التحقق أولاً: هل المتصفح يدعم الإشعارات؟
-    if (!('Notification' in window)) {
-        return;
-    }
-    
-    // التحقق ثانياً: هل تم سؤال المستخدم من قبل؟
-    if (localStorage.getItem('notifications_asked')) {
-        return;
-    }
-
-    // التحقق ثالثاً: هل الإذن ممنوح بالفعل؟
-    if (Notification.permission === 'granted') {
-        localStorage.setItem('notifications_asked', 'true'); // للتأكد
-        return;
-    }
-
-    // إظهار النافذة المنبثقة المخصصة
-    notificationPrompt.style.display = 'flex';
-}
-
-// 1. عند النقر على "نعم، أريد ذلك"
-allowNotificationsBtn.addEventListener('click', () => {
-    // 🚨 إخفاء النافذة المخصصة فورا قبل طلب إذن المتصفح لحل مشكلة زر الرجوع
-    notificationPrompt.style.display = 'none'; 
-    
-    // وضع علامة في التخزين المحلي لمنع الظهور مرة أخرى
-    localStorage.setItem('notifications_asked', 'true');
-    
-    // طلب الإذن الفعلي من النظام
-    requestNotificationPermission();
-});
-
-// 2. عند النقر على "لا شكراً"
-denyNotificationsBtn.addEventListener('click', () => {
-    // إخفاء ووضع علامة في التخزين المحلي
-    notificationPrompt.style.display = 'none';
-    localStorage.setItem('notifications_asked', 'true');
-});
-
-
-// ====== منطق التشغيل الجديد: PWA فقط + تأخير 10 ثوانٍ ======
-function initNotificationPrompt() {
-    // تحديد ما إذا كان التطبيق يعمل في وضع PWA المثبت (Standalone)
-    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
-
-    if (isStandalone) {
-        // إذا كان التطبيق مثبتاً: تأخير الظهور لمدة 10 ثوانٍ
-        console.log("App is installed (Standalone mode). Delaying notification prompt for 10 seconds.");
-        setTimeout(showNotificationPrompt, 10000); // 10000ms = 10 ثوانٍ
-    }
-    // إذا لم يكن مثبتاً (في المتصفح)، لن تظهر الرسالة.
-}
-
-// استدعاء دالة التهيئة عند تحميل الصفحة
-window.addEventListener('load', initNotificationPrompt); 
-/* ====== نهاية منطق الإشعارات المنبثقة ====== */
-
 
 // 🚀 ------------------------------------------
 // ✨ دالة تحديد الموقع (Geolocation) (جديد)
@@ -1340,4 +1262,27 @@ function renderCartSuggestions() {
     });
 }
 
+document.addEventListener("DOMContentLoaded", () => {
+
+  const promptBox = document.getElementById("notificationPrompt");
+  const allowBtn = document.getElementById("allowNotifications");
+  const denyBtn  = document.getElementById("denyNotifications");
+
+  setTimeout(async () => {
+    const permission = await OneSignal.Notifications.permission;
+    if (permission === "default") {
+      promptBox.style.display = "flex";
+    }
+  }, 4000);
+
+  allowBtn.addEventListener("click", async () => {
+    promptBox.style.display = "none";
+    await OneSignal.Slidedown.promptPush();
+  });
+
+  denyBtn.addEventListener("click", () => {
+    promptBox.style.display = "none";
+  });
+
+});
 // ------------------------------------------
