@@ -3,15 +3,17 @@
 <head>
 <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
 <script>
-  window.OneSignalDeferred = window.OneSignalDeferred || [];
-  OneSignalDeferred.push(async function(OneSignal) {
-    await OneSignal.init({
-      appId: "df5ef4e2-c4e6-42a0-acac-f88ac45af735",
-      serviceWorkerParam: { scope: "/Dirty55/" },
-      serviceWorkerPath: "/Dirty55/OneSignalSDKWorker.js",
-      notifyButton: { enable: true }
-    });
+window.OneSignalDeferred = window.OneSignalDeferred || [];
+OneSignalDeferred.push(async function(OneSignal) {
+
+  await OneSignal.init({
+    appId: "df5ef4e2-c4e6-42a0-acac-f88ac45af735",
+    serviceWorkerPath: "/Dirty55/OneSignalSDKWorker.js",
+    serviceWorkerParam: { scope: "/Dirty55/" },
+    notifyButton: { enable: false }
   });
+
+});
 </script>
 
 
