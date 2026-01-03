@@ -1,20 +1,21 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+ <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
 <script>
   window.OneSignalDeferred = window.OneSignalDeferred || [];
   OneSignalDeferred.push(async function(OneSignal) {
     await OneSignal.init({
       appId: "9f46b08e-9f60-4927-b1ef-627d75519207",
-      serviceWorkerPath: "/Dirty55/OneSignalSDKWorker.js",
-      serviceWorkerParam: { scope: "/Dirty55/" },
+      serviceWorkerPath: "OneSignalSDKWorker.js",
+      serviceWorkerParam: { scope: "./" },
       notifyButton: {
         enable: true,
       },
     });
   });
 </script>
+
 
 
    
