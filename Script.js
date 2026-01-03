@@ -1261,28 +1261,4 @@ function renderCartSuggestions() {
         suggestionsContainer.appendChild(itemDiv);
     });
 }
-
-document.addEventListener("DOMContentLoaded", () => {
-
-  const promptBox = document.getElementById("notificationPrompt");
-  const allowBtn = document.getElementById("allowNotifications");
-  const denyBtn  = document.getElementById("denyNotifications");
-
-  setTimeout(async () => {
-    const permission = await OneSignal.Notifications.permission;
-    if (permission === "default") {
-      promptBox.style.display = "flex";
-    }
-  }, 4000);
-
-  allowBtn.addEventListener("click", async () => {
-    promptBox.style.display = "none";
-    await OneSignal.Slidedown.promptPush();
-  });
-
-  denyBtn.addEventListener("click", () => {
-    promptBox.style.display = "none";
-  });
-
-});
 // ------------------------------------------
