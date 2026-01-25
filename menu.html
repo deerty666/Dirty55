@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>جاري التحويل...</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const branch = params.get('branch') || 'branch1';
+
+    window.location.replace(
+      `https://deerty666.github.io/?branch=${branch}`
+    );
+  </script>
+</head>
+<body></body>
+</html>
